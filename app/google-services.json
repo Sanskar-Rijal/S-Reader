@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "579077805214",
+    "project_id": "fir-reader-3d9eb",
+    "storage_bucket": "fir-reader-3d9eb.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:579077805214:android:f751689232637f40fe978f",
+        "android_client_info": {
+          "package_name": "com.example.books"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAR4kz6RxMTfsfp7CYrj0oIOfIq-1hzL-c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
