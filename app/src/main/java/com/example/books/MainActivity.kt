@@ -1,7 +1,8 @@
 
-package com.example.books
+  package com.example.books
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -13,36 +14,36 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.books.ui.theme.BooksTheme
+import com.google.firebase.firestore.FirebaseFirestore
+import dagger.hilt.android.AndroidEntryPoint
 
-class MainActivity : ComponentActivity() {
+  @AndroidEntryPoint
+  class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            BooksTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+            myApp {
+                val database:FirebaseFirestore=FirebaseFirestore.getInstance()
+                val user:MutableMap<String,Any > = HashMap()
+                user["FirstName"]="Sans"
+                user["LastName"]="Rijal"
+                database.collection("users")
+                    .add(user)
+                    .addOnSuccessListener {
+                        Log.d("FB", "onCreate:${it.id} ")
+                    }
+                    .addOnFailureListener{
+                        Log.d("FB", "onCreate: $it ")
+                    }
             }
         }
     }
 }
+  @Composable
+  fun myApp(content : @Composable () -> Unit ){
+      BooksTheme {
+          content()
+      }
+  }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    BooksTheme {
-        Greeting("Android")
-    }
-}
