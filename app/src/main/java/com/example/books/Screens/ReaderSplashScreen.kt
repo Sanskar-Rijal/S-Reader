@@ -24,6 +24,7 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.books.components.MainLogo
 import com.example.books.navigation.ReaderNavigation
 import com.example.books.navigation.ReaderScreens
 import kotlinx.coroutines.delay
@@ -46,22 +47,26 @@ fun SplashScreen(navController: NavController){
                 })
         )
         delay(2000L)
-        navController.navigate(ReaderScreens.ReaderHomeScreen.name)
+        navController.navigate(ReaderScreens.LoginScreen.name)
     }
     Surface(modifier = Modifier.padding(17.dp)
         .size(330.dp)
         .scale(scale.value),
         shape = CircleShape,
         border = BorderStroke(3.dp, Color.LightGray)) {
+
         Column(modifier = Modifier
             .padding(1.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center) {
-            Text(text = "S. Reader", style = MaterialTheme.typography.headlineLarge,
-                color = Color.Red.copy(alpha = 0.5f)) //making the color of red little bit dimmer
+
+            MainLogo() //making the color of red little bit dimmer
+
             Spacer(modifier = Modifier.height(15.dp))
             Text(text = "\"Read. Change. Yourself\"", style = MaterialTheme.typography.headlineSmall,
                 color = Color.LightGray)
+
         }
     }
 }
+
