@@ -2,6 +2,7 @@ package com.example.books.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
@@ -20,7 +21,7 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun MainLogo(modifier: Modifier = Modifier) {
     Text(
-        modifier = modifier.padding(bottom = 16.dp),
+        modifier = modifier,
         text = "S. Reader", style = MaterialTheme.typography.headlineLarge,
         color = Color.Red.copy(alpha = 0.5f)
     )
@@ -69,6 +70,7 @@ fun Input(modifier: Modifier=Modifier,
         modifier = modifier.padding(bottom = 10.dp, start = 10.dp, end = 10.dp)
             .fillMaxWidth(),
         enabled=enabled,
+        shape = RoundedCornerShape(15.dp),
         keyboardOptions = KeyboardOptions(keyboardType = keyboardType,
             imeAction = imeaction)
     )
