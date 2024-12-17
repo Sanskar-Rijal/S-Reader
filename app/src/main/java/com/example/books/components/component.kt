@@ -2,9 +2,13 @@ package com.example.books.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -13,16 +17,19 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlin.math.log
 
 @Composable
-fun MainLogo(modifier: Modifier = Modifier) {
+fun MainLogo(modifier: Modifier = Modifier,logScreen:Boolean=false) {
     Text(
         modifier = modifier,
-        text = "S. Reader", style = MaterialTheme.typography.headlineLarge,
+        text = "S. Reader", style = if(!logScreen) MaterialTheme.typography.headlineLarge
+        else MaterialTheme.typography.displayMedium,
         color = Color.Red.copy(alpha = 0.5f)
     )
 }
@@ -74,4 +81,30 @@ fun Input(modifier: Modifier=Modifier,
         keyboardOptions = KeyboardOptions(keyboardType = keyboardType,
             imeAction = imeaction)
     )
-} 
+}
+
+@Composable
+fun SubmitButton(textId: String,
+                 loading: Boolean,
+                 validInputs: Boolean,
+                 onClick: () -> Unit) {
+
+    Button(onClick=onClick,
+        modifier = Modifier
+            .padding(10.dp)
+            .fillMaxWidth(),
+        enabled = !loading && validInputs,
+        shape = CircleShape
+    ) {
+        if(loading)
+            CircularProgressIndicator(modifier = Modifier
+                .size(30.dp))
+        else
+            Text(text = textId,
+                modifier = Modifier
+                .padding(5.dp),
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold)
+    }
+
+}
