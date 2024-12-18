@@ -142,7 +142,7 @@ fun Userform(
     //keyboard may  overlap on our login screen , i mean the text field where we enter password and email
     //so it's better to make it scrollable
     val modifier = Modifier
-        .height(260.dp)
+        .height(270.dp)
         .background(MaterialTheme.colorScheme.background)
         .verticalScroll(rememberScrollState()) //allows us to scroll when the screen size is too small
 
