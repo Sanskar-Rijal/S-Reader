@@ -19,7 +19,7 @@ fun ReaderNavigation(){
         }
 
         composable(ReaderScreens.LoginScreen.name){
-            LoginScreen()
+            LoginScreen(navController)
         }
 
         composable(ReaderScreens.ReaderHomeScreen.name){

@@ -48,14 +48,16 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.books.components.Emailinput
 import com.example.books.components.MainLogo
 import com.example.books.components.SubmitButton
+import com.example.books.navigation.ReaderScreens
 
-@Preview
+
 @Composable
-fun LoginScreen(){
+fun LoginScreen(navController: NavController,viewModel: LoginViewModel= viewModel()){
 
     val showLoginForm = rememberSaveable{
         mutableStateOf(true)
@@ -75,15 +77,20 @@ fun LoginScreen(){
                     isCreateAccount = false
                 ) { email, pass ->
                     Log.d("sans", "LoginScreen: email=$email,pass=$pass")
-                    //we have to login the user
+                    viewModel.signInwithEmailAndPassword(email,pass){
+                        navController.navigate(ReaderScreens.ReaderHomeScreen.name)
+                    }
                 }
             }
             else{
                 //means we want to show create account Screen
                 Userform(loading = false,
                     isCreateAccount = true){email,pass->
+                //we have to create the  user
 
-                    //we have to create the  user
+                    viewModel.CreateUserWithEmailandPassword(email,pass){
+                        navController.navigate(ReaderScreens.ReaderHomeScreen.name)
+                    }
                 }
             }
 
@@ -175,6 +182,7 @@ fun Userform(
                    return@KeyboardActions
                 }
                 onDone(email.value.trim(),password.value.trim())
+                keyboardController?.hide()
             }
         )
 
@@ -201,7 +209,7 @@ fun PasswordInput(
     passwordstate:MutableState<String>,
     labelid: String,
     enabled: Boolean,
-    imeAction: ImeAction=ImeAction.Done,
+    imeAction: ImeAction=ImeAction.Default,
     passwordvisibility: MutableState<Boolean>,
     onAction: KeyboardActions=KeyboardActions.Default
 ) {
@@ -220,7 +228,7 @@ fun PasswordInput(
         modifier = modifier
             .padding(bottom = 10.dp, start = 10.dp, end = 10.dp)
             .fillMaxWidth(),
-        keyboardActions = onAction,
+       // keyboardActions = onAction,
         enabled =enabled,
         shape = RoundedCornerShape(15.dp),
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password,
