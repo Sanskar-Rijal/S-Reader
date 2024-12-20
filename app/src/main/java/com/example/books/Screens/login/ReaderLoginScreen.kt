@@ -54,6 +54,7 @@ import com.example.books.components.Emailinput
 import com.example.books.components.MainLogo
 import com.example.books.components.SubmitButton
 import com.example.books.navigation.ReaderScreens
+import java.io.Reader
 
 
 @Composable

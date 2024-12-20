@@ -25,8 +25,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.books.components.MainLogo
-import com.example.books.navigation.ReaderNavigation
 import com.example.books.navigation.ReaderScreens
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.delay
 import okhttp3.Cookie
 
@@ -47,7 +47,14 @@ fun SplashScreen(navController: NavController){
                 })
         )
         delay(2000L)
-        navController.navigate(ReaderScreens.LoginScreen.name)
+        //now if the user is already logined we will take user directly to login screen
+        if(FirebaseAuth.getInstance().currentUser?.email.isNullOrEmpty()) {
+            navController.navigate(ReaderScreens.LoginScreen.name)
+        }
+        else {
+            navController.navigate(ReaderScreens.ReaderHomeScreen.name)
+        }
+
     }
     Surface(modifier = Modifier.padding(17.dp)
         .size(330.dp)
