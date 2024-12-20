@@ -48,12 +48,13 @@ fun SplashScreen(navController: NavController){
         )
         delay(2000L)
         //now if the user is already logined we will take user directly to login screen
-        if(FirebaseAuth.getInstance().currentUser?.email.isNullOrEmpty()) {
-            navController.navigate(ReaderScreens.LoginScreen.name)
-        }
-        else {
-            navController.navigate(ReaderScreens.ReaderHomeScreen.name)
-        }
+//        if(FirebaseAuth.getInstance().currentUser?.email.isNullOrEmpty()) {
+//            navController.navigate(ReaderScreens.LoginScreen.name)
+//        }
+//        else {
+//            navController.navigate(ReaderScreens.ReaderHomeScreen.name)
+//        }
+        navController.navigate(ReaderScreens.LoginScreen.name)
 
     }
     Surface(modifier = Modifier.padding(17.dp)

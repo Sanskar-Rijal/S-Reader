@@ -2,6 +2,7 @@ package com.example.books.model
 
 data class Suser(
     val id:String?,
+    val email:String,
     val userId:String,
     val displayName:String,
     val profileIcon:String,
@@ -14,6 +15,7 @@ data class Suser(
             "user_Id" to this.id,
             "display_Name" to this.displayName,
             "quote" to this.quote,
+            "email" to this.email,
             "proffession" to this.proffession,
             "avatar" to this.profileIcon
         )

@@ -48,17 +48,19 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.books.components.Emailinput
 import com.example.books.components.MainLogo
+import com.example.books.components.NotificationMessage
 import com.example.books.components.SubmitButton
 import com.example.books.navigation.ReaderScreens
-import java.io.Reader
 
 
 @Composable
-fun LoginScreen(navController: NavController,viewModel: LoginViewModel= viewModel()){
+fun LoginScreen(navController: NavController,viewModel: LoginViewModel= hiltViewModel()){
+
 
     val showLoginForm = rememberSaveable{
         mutableStateOf(true)
@@ -88,11 +90,11 @@ fun LoginScreen(navController: NavController,viewModel: LoginViewModel= viewMode
                 Userform(loading = false,
                     isCreateAccount = true){email,pass->
                 //we have to create the  user
-
                     viewModel.CreateUserWithEmailandPassword(email,pass){
                         navController.navigate(ReaderScreens.ReaderHomeScreen.name)
                     }
                 }
+                NotificationMessage(viewModel)
             }
 
             Row(modifier = Modifier.padding(start = 4.dp, end = 4.dp),
