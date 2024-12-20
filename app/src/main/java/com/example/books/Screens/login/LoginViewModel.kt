@@ -40,11 +40,11 @@ class LoginViewModel @Inject constructor(private val auth: FirebaseAuth,
         try {
             auth.signInWithEmailAndPassword(email,password).addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-                        Log.d("login", "signInwithEmailAndPassword:${task.result}")
+                        Log.d("login", "signInwithEmailAndPassword:${task.exception}")
                         //take them to HomeScreen
                         home()
                     } else {
-                        Log.d("fuck", "signInwithEmailAndPassword: ${task.result}")
+                        Log.d("fuck", "signInwithEmailAndPassword: ${task.exception}")
                         handleException(task.exception, "Login Failed")
                     }
                 }

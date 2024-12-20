@@ -84,6 +84,7 @@ fun LoginScreen(navController: NavController,viewModel: LoginViewModel= hiltView
                         navController.navigate(ReaderScreens.ReaderHomeScreen.name)
                     }
                 }
+                NotificationMessage(viewModel)
             }
             else{
                 //means we want to show create account Screen
