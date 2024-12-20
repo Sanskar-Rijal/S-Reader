@@ -8,6 +8,6 @@ import javax.inject.Inject
 
 @Module
 @InstallIn(SingletonComponent::class)
-object AppModule {
+class AppModule {
 
 }

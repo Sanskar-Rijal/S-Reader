@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.books.model.Suser
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
@@ -41,6 +42,9 @@ class LoginViewModel:ViewModel() {
     }
 
     fun CreateUserWithEmailandPassword(email: String,password: String,home: () -> Unit){
+        //we need to check whether user is unique or not so we check email address
+
+
      if(_loading.value == false){
          _loading.value=true
          auth.createUserWithEmailAndPassword(email,password)
@@ -64,10 +68,10 @@ class LoginViewModel:ViewModel() {
         //attaching the randomly generated user id from authentication
         val userId=auth.currentUser?.uid
         //to save anything in firestore we  are creating user
-        val user= mutableMapOf<String,Any>()
-        user["user_id"]=userId.toString()
-        user["display_name"]=displayName!!.toString()
+      //  val user= mutableMapOf<String,Any>()
 
+        val user=Suser(userId=userId.toString(), displayName = displayName.toString(), profileIcon = "",
+            quote = "Life is beautiful enjoy it!!", proffession = "Android Developer", id = null).toMap()
         //adding to firebase databse
         FirebaseFirestore.getInstance().collection("users").add(user)
 
