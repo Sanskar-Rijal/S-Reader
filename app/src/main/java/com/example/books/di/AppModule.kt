@@ -1,26 +1,27 @@
 package com.example.books.di
 
-import com.google.firebase.Firebase
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
+import com.example.books.network.BooksApi
+import com.example.books.utils.Constants
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Inject
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 
 @Module
 @InstallIn(SingletonComponent::class)
-class AppModule {
+object AppModule {
 
-    @Provides
     @Singleton
-    fun provideAuthentication():FirebaseAuth = FirebaseAuth.getInstance()
-
     @Provides
-    @Singleton
-    fun provideFirestor():FirebaseFirestore = FirebaseFirestore.getInstance()
-
+    fun ProvideBookAPI():BooksApi {
+        return Retrofit.Builder()
+            .baseUrl(Constants.Base_Url)
+            .addConverterFactory(GsonConverterFactory.create()) //converting into json objects
+            .build()
+            .create(BooksApi::class.java)
+    }//Now this will go and get book from NETWORK
 }

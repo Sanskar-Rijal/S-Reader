@@ -3,6 +3,7 @@ package com.example.books.navigation
 import android.net.http.UrlRequest.Status
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -15,7 +16,7 @@ import com.example.books.components.NotificationMessage
 
 @Composable
 fun ReaderNavigation(){
-    val viewModel:LoginViewModel= hiltViewModel()
+    val viewModel:LoginViewModel= viewModel()
     NotificationMessage(viewModel)
 
     val navController= rememberNavController()

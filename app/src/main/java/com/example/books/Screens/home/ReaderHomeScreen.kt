@@ -37,11 +37,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.books.components.TitleSection
 import com.example.books.model.Sbook
 import com.example.books.navigation.ReaderScreens
 import com.example.books.widgets.AppBarbysans
 import com.google.firebase.auth.FirebaseAuth
-
 
 @Composable
 fun Home(navController: NavController){
@@ -84,19 +84,7 @@ fun ReadingRightNowArea(books:List<Sbook>, navController: NavController){
 
 }
 
-@Composable
-fun titleSection(modifier: Modifier=Modifier,label :String){
-    Surface(modifier=modifier
-        .padding(start = 5.dp, end = 1.dp)){
-        Column {
-            Text(text = label,
-                fontSize = 20.sp,
-                fontStyle = FontStyle.Normal,
-                textAlign = TextAlign.Left
-                )
-        }
-    }
-}
+
 
 
 //contenetforhome Section
@@ -109,6 +97,8 @@ fun HomeContent(navController: NavController){
     }else{
         "N/A"
     }
+
+
     Column(modifier = Modifier
         .padding(4.dp),
         verticalArrangement = Arrangement.Top) {
@@ -117,8 +107,8 @@ fun HomeContent(navController: NavController){
           //  .align(alignment = Alignment.Start),
            // ,horizontalArrangement = Arrangement.SpaceBetween,
             ,verticalAlignment = Alignment.CenterVertically) {
-            titleSection(label = "Your reading \n" +"activity right now....")
-            Spacer(modifier = Modifier.fillMaxSize(0.7f))
+            TitleSection(label = "Your reading \n" +"activity right now....")
+            Spacer(modifier = Modifier.fillMaxWidth(0.7f))
            Column {
                 //profile Icon
                 Icon(imageVector = Icons.Default.AccountCircle,

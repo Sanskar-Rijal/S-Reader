@@ -22,12 +22,11 @@ import kotlin.math.log
 
 const val USERS = "users"
 
-@HiltViewModel
-class LoginViewModel @Inject constructor(private val auth: FirebaseAuth,
-                                         private val database:FirebaseFirestore) :ViewModel() {
+
+class LoginViewModel:ViewModel() {
 
   //  val loadingState = MutableStateFlow(LoadingState.IDLE)
-    //private val auth:FirebaseAuth=Firebase.auth
+    private val auth:FirebaseAuth=Firebase.auth
 
     private val _loading = MutableLiveData(false)
     val loading: LiveData<Boolean> = _loading

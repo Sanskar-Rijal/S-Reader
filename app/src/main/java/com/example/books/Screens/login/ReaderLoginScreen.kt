@@ -59,7 +59,7 @@ import com.example.books.navigation.ReaderScreens
 
 
 @Composable
-fun LoginScreen(navController: NavController,viewModel: LoginViewModel= hiltViewModel()){
+fun LoginScreen(navController: NavController,viewModel: LoginViewModel= viewModel()){
 
 
     val showLoginForm = rememberSaveable{
@@ -112,7 +112,7 @@ fun LoginScreen(navController: NavController,viewModel: LoginViewModel= hiltView
                         showLoginForm.value= !showLoginForm.value //making it true and false
                     },
                     fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.inversePrimary
+                    color = MaterialTheme.colorScheme.onTertiaryContainer
                 )
             }
         }
