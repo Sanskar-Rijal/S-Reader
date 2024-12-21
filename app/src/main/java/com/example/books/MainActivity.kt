@@ -4,6 +4,7 @@
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
+import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Arrangement
@@ -17,10 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.books.Screens.login.LoginViewModel
-import com.example.books.components.NotificationMessage
+import androidx.compose.ui.graphics.Color
 import com.example.books.navigation.ReaderNavigation
 import com.example.books.ui.theme.BooksTheme
 import com.google.firebase.firestore.FirebaseFirestore

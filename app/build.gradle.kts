@@ -117,6 +117,11 @@ dependencies {
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-firestore")
     implementation("com.google.firebase:firebase-storage")
+
+
+    //to access all the icons
+    implementation("androidx.compose.material:material-icons-extended")
+
 }
 kapt {
     correctErrorTypes = true
