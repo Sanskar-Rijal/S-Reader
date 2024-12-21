@@ -1,11 +1,13 @@
 package com.example.books.navigation
 
+import android.net.http.UrlRequest.Status
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.books.Screens.SplashScreen
+import com.example.books.Screens.Stats.StatusScreen
 import com.example.books.Screens.home.Home
 import com.example.books.Screens.login.LoginScreen
 import com.example.books.Screens.login.LoginViewModel
@@ -31,6 +33,9 @@ fun ReaderNavigation(){
 
         composable(ReaderScreens.ReaderHomeScreen.name){
             Home(navController)
+        }
+        composable(ReaderScreens.StatsScreen.name){
+            StatusScreen(navController)
         }
 
     }

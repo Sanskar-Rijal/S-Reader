@@ -68,7 +68,8 @@ fun AppBarbysans(title:String,
                         navController.navigate(ReaderScreens.LoginScreen.name)
                     }}){
                     Icon(imageVector = Icons.AutoMirrored.Filled.Logout,
-                        contentDescription = "LogOut")
+                        contentDescription = "LogOut",
+                        tint = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.4f))
                     }
             }
         },
