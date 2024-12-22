@@ -19,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import com.example.books.Screens.Search.SearchViewModel
 import com.example.books.navigation.ReaderNavigation
 import com.example.books.ui.theme.BooksTheme
 import com.google.firebase.firestore.FirebaseFirestore
