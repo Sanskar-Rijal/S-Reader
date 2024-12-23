@@ -41,6 +41,7 @@ import com.example.books.components.TitleSection
 import com.example.books.model.Sbook
 import com.example.books.navigation.ReaderScreens
 import com.example.books.widgets.AppBarbysans
+import com.example.books.widgets.ListCard
 import com.google.firebase.auth.FirebaseAuth
 
 @Composable
@@ -102,14 +103,16 @@ fun HomeContent(navController: NavController){
     Column(modifier = Modifier
         .padding(4.dp),
         verticalArrangement = Arrangement.Top) {
+
+
         Row(modifier = Modifier
             .fillMaxWidth()
           //  .align(alignment = Alignment.Start),
            // ,horizontalArrangement = Arrangement.SpaceBetween,
             ,verticalAlignment = Alignment.CenterVertically) {
             TitleSection(label = "Your reading \n" +"activity right now....")
-            Spacer(modifier = Modifier.fillMaxWidth(0.7f))
-           Column {
+            Spacer(modifier = Modifier.fillMaxWidth(0.3f))
+           Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 //profile Icon
                 Icon(imageVector = Icons.Default.AccountCircle,
                     modifier = Modifier.clickable {
@@ -131,5 +134,6 @@ fun HomeContent(navController: NavController){
             }
 
         }
+        ListCard()
     }
 }
