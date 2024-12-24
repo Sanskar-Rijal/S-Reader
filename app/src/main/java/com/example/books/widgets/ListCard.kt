@@ -48,10 +48,13 @@ import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.example.books.R
 import com.example.books.model.Book
+import com.example.books.model.Sbook
 
-@Preview
+
 @Composable
-fun ListCard(onPressDetails:(String) -> Unit={}){
+fun ListCard(
+    book:Sbook=Sbook(id="asdf", title = "Running", authors = "Me and you ", notes = "sans is pro"),
+    onPressDetails:(String) -> Unit={}){ //on pressed will return the id of book
 
     //creating context about this composable
     val context= LocalContext.current
@@ -64,9 +67,9 @@ fun ListCard(onPressDetails:(String) -> Unit={}){
     val spacing=10.dp
 
     Card(modifier = Modifier
-        .height(256.dp)
-        .width(210.dp)
-        .padding(19.dp)
+        .height(250.dp)
+        .width(208.dp)
+        .padding(10.dp)
         .clickable {
             onPressDetails.invoke("Twilight")
         },
@@ -85,7 +88,7 @@ fun ListCard(onPressDetails:(String) -> Unit={}){
                 horizontalArrangement = Arrangement.Center){
                // loading image from internet
                 AsyncImage(model = ImageRequest.Builder(LocalContext.current)
-                    .data("")
+                    .data("https://books.google.com/books/content?id=EKV6zgEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api")
                     .crossfade(true)
                     .build(),
                     placeholder= painterResource(R.drawable.dummy),
@@ -94,9 +97,7 @@ fun ListCard(onPressDetails:(String) -> Unit={}){
                     modifier = Modifier
                         .height(140.dp)
                         .width(100.dp)
-                        .padding(4.dp)
-                        .clip(CircleShape)
-                )
+                        .padding(4.dp))
                 Spacer(Modifier.width(20.dp))
 
                 Column(modifier = Modifier.padding(top = 10.dp),
@@ -119,10 +120,11 @@ fun ListCard(onPressDetails:(String) -> Unit={}){
                 overflow = TextOverflow.Clip)// if we have more text that can't be displayed it will be clipped
 
             Text(text="Authors:All...",
+                modifier = Modifier.padding(4.dp),
                 style = MaterialTheme.typography.bodySmall
             )
         }
-           Row(modifier = Modifier.fillMaxWidth(),
+           Row(modifier = Modifier.fillMaxSize(),
                horizontalArrangement = Arrangement.End,
                verticalAlignment = Alignment.Bottom) {
                roundedButton(label = "Reading", radius = 70)
@@ -163,11 +165,11 @@ fun roundedButton(
     onPress:()->Unit ={}
 ){
     Surface(modifier = Modifier
-        .clip(RoundedCornerShape(bottomEndPercent = radius,
+        .clip(RoundedCornerShape(bottomEndPercent = 40,
             topStartPercent = radius)),
         color = MaterialTheme.colorScheme.tertiaryContainer){
         Column(modifier = Modifier
-            .width(98.dp)
+            .width(90.dp)
             .heightIn(60.dp)
             .clickable {
                 onPress.invoke()
@@ -181,7 +183,7 @@ fun roundedButton(
              * If the content requires more space than the max height, it will shrink to fit within the max height.
              * If the content naturally fits within the range, it will take its natural height.
              */
-            Text(text = "Label",
+            Text(text = label,
                 color = MaterialTheme.colorScheme.onTertiaryContainer,
                 fontWeight = FontWeight.SemiBold,
                 style = MaterialTheme.typography.labelMedium
