@@ -19,6 +19,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.RemoveRedEye
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -33,6 +34,7 @@ import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.traceEventEnd
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -237,7 +239,22 @@ fun PasswordInput(
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password,
             imeAction = imeAction),
         visualTransformation = visualTransformation,
-        trailingIcon = {PasswordVisibility(passwordvisibility=passwordvisibility)}
+        trailingIcon = {
+            //Icon(imageVector = Icons.Default.RemoveRedEye, contentDescription = "Show Password")
+            //PasswordVisibility(passwordvisibility=passwordvisibility)
+
+            if(passwordvisibility.value){
+                IconButton(onClick ={passwordvisibility.value= !passwordvisibility.value} ) {
+                    Icon(imageVector = Icons.Default.Close, contentDescription = "icon")
+                }
+            }
+            else{
+                IconButton(onClick = {passwordvisibility.value =!passwordvisibility.value}) {
+                    Icon(imageVector = Icons.Default.RemoveRedEye, contentDescription = "icon")
+                }
+            }
+
+        }
     )
 
 
@@ -246,8 +263,16 @@ fun PasswordInput(
 
 @Composable
 fun PasswordVisibility(passwordvisibility: MutableState<Boolean>) {
-    val visible=passwordvisibility.value
+    var visible=passwordvisibility.value
+    if(visible){
     IconButton(onClick ={passwordvisibility.value= !visible} ) {
-        Icons.Default.Close
+        Icon(imageVector = Icons.Default.Close, contentDescription = "icon")
+        }
+    }
+    else{
+        IconButton(onClick = {passwordvisibility.value =!visible}) {
+            Icon(imageVector = Icons.Default.RemoveRedEye, contentDescription = "icon")
+            passwordvisibility.value=true
+        }
     }
 }

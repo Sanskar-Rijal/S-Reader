@@ -1,19 +1,13 @@
 package com.example.books.widgets
 
+import androidx.collection.emptyLongSet
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material.icons.automirrored.filled.Logout
-import androidx.compose.material.icons.filled.AccountBox
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.Bookmarks
-import androidx.compose.material.icons.filled.ExitToApp
-import androidx.compose.material.icons.filled.Facebook
-import androidx.compose.material.icons.filled.Logout
-import androidx.compose.material.icons.filled.Outbond
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -25,9 +19,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.scale
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -42,10 +34,11 @@ import com.google.firebase.auth.FirebaseAuth
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppBarbysans(title:String,
-           showProfile:Boolean=true,
-           navController: NavController
-           ){
-    TopAppBar(title = {
+                 showProfile:Boolean=true,
+                 navController: NavController,
+                 icon:ImageVector?=null,
+                 onBackArrowClicked:()->Unit={}){
+    CenterAlignedTopAppBar(title = {
         Row(verticalAlignment = Alignment.CenterVertically) {
             if(showProfile){
                 Image(painter = painterResource(R.drawable.reading), contentDescription = "icon",
@@ -60,6 +53,18 @@ fun AppBarbysans(title:String,
             )
         }
     },
+        navigationIcon = {
+            if(icon!=null){
+                IconButton(onClick = {
+                    onBackArrowClicked.invoke()
+                }){
+                    Icon(imageVector = icon,
+                        contentDescription = "back arrow",
+                        tint = MaterialTheme.colorScheme.onPrimaryContainer)
+                }
+            }
+        }
+        ,
         actions = {
             //actions are displayed at the end of topbar
             if(showProfile){
