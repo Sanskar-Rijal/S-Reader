@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.books.Screens.Search.SearchViewModel
 import com.example.books.Screens.login.LoginViewModel
 
 @Composable
@@ -17,6 +18,19 @@ fun NotificationMessage(viewModel: LoginViewModel= viewModel()){
     val contex:Context= LocalContext.current
     Log.d("april", "entered toast but outside if block ")
           if(notifmsg != null){
+        Toast.makeText(contex, notifmsg, Toast.LENGTH_SHORT).show()
+        Log.d("april", "entered toast: ")
+    }
+}
+
+@Composable
+fun BookNotFound(viewModel: SearchViewModel= hiltViewModel()){
+    val notificationState= viewModel.popUpNotification.value
+    val notifmsg=notificationState?.getContentorNull()
+    //now we display toast message
+    val contex:Context= LocalContext.current
+    Log.d("april", "entered toast but outside if block ")
+    if(notifmsg != null){
         Toast.makeText(contex, notifmsg, Toast.LENGTH_SHORT).show()
         Log.d("april", "entered toast: ")
     }

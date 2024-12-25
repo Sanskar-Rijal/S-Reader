@@ -1,37 +1,56 @@
 package com.example.books.Screens.Search
 
 import android.graphics.drawable.Icon
+import android.provider.ContactsContract.Data
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.Icon
-import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.traceEventEnd
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import androidx.navigation.navOptions
+import com.example.books.components.BookNotFound
+import com.example.books.data.DataorException
+import com.example.books.data.EVENT
+import com.example.books.model.Sbook
 import com.example.books.navigation.ReaderScreens
 import com.example.books.widgets.AppBarbysans
+import com.example.books.widgets.SearchBar
+import com.example.books.widgets.SearchListCard
 
-@Preview
+
 @Composable
-fun SearchScreen(navController: NavController=NavController(LocalContext.current)){
+fun SearchScreen(navController: NavController,
+                 searchViewModel: SearchViewModel= hiltViewModel()
+                 ){
+
+
+
+    val books:List<Sbook> =listOf(
+        Sbook(id="sdfasf", title = "sdfasfa", authors = "ahsdfasf", notes = "asdfafs"),
+        Sbook(id="sdfasf", title = "wer", authors = "fdsa", notes = "fwef"),
+        Sbook(id="adsf", title = "dsf", authors = "dvdcd", notes = "sfs"),
+        Sbook(id="dfg", title = "43re", authors = "ahsdfasf", notes = "ewrwe"),
+        Sbook(id="sdfwerasf", title = "sdfsa", authors = "sdfa", notes = "vcbdvb")
+    )
+
     Scaffold(topBar = {
         AppBarbysans(title = "Search Books", showProfile = false,
             navController = NavController(LocalContext.current),
@@ -45,58 +64,37 @@ fun SearchScreen(navController: NavController=NavController(LocalContext.current
             .padding(it)) {
             Column(modifier = Modifier.padding(10.dp)) {
 
-                SearchBar()
+                SearchBar(){bookName-> //this lamda i.e bookName gives the Name of the Book
+                    searchViewModel.SearchBooks(bookName)
+                }
+                ShowBooks(navController=navController)
+                BookNotFound(searchViewModel)
 
             }
         }
     }
 }
 
-
-@Preview
 @Composable
-fun SearchBar(
-    modifier: Modifier=Modifier,
-    loading:Boolean=true,
-    hint:String="Book Name",
-    onSearch:(String)->Unit={}
-){
-    val SearchQueryState= rememberSaveable{
-        mutableStateOf("")
+fun ShowBooks(navController: NavController,searchViewMode: SearchViewModel= hiltViewModel()){
+
+    val listofbooks= searchViewMode.list //we should have list of books
+    if(searchViewMode.isLoading) {
+        LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
     }
-
-    val keyboardController= LocalSoftwareKeyboardController.current
-
-    //checking whether search bar is empty or not
-    val valid = remember(SearchQueryState.value){
-        SearchQueryState.value.trim().isNotEmpty() //if it's not empty then it's true
-    }
-    /**
-     * Here, SearchQueryState.value is used as a key for the remember
-     * function. When the value of SearchQueryState.value changes,
-     * the block inside remember will be recomputed. This ensures that
-     * valid gets updated whenever the SearchQueryState.value changes.
-     */
-    //In this case, remember does not have any keys.
-// It will compute the value only once during the initial composition and will not recompute it even if SearchQueryState.value changes later.
-
-    OutlinedTextField(
-        value = SearchQueryState.value,
-        onValueChange = {SearchQueryState.value=it},
-        label = { Text(hint) },
-        maxLines = 1,
-        singleLine = true,
-        shape = RoundedCornerShape(15.dp),
-        modifier = Modifier.fillMaxWidth()
-            .padding(15.dp),
-        keyboardActions = KeyboardActions {
-            if(!valid){ //if the text field is empty then it will return
-                return@KeyboardActions
+    else{
+        LazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(5.dp)
+        ) {
+            items(listofbooks) {
+                SearchListCard(book = it, navController = navController) {
+                    //onclick
+                }
             }
-            onSearch(SearchQueryState.value.trim())
-            //removing the search query state value after Search Query
-            keyboardController?.hide() //we are closing our keyboard now
-        }
-    )
 
+        }
+    }
 }
+
+

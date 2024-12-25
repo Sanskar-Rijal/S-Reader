@@ -1,5 +1,6 @@
 package com.example.books.widgets
 
+import android.widget.Toast
 import androidx.collection.emptyLongSet
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Row
@@ -13,13 +14,12 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -38,14 +38,11 @@ fun AppBarbysans(title:String,
                  navController: NavController,
                  icon:ImageVector?=null,
                  onBackArrowClicked:()->Unit={}){
+
+    val context= LocalContext.current //to show toast message
+
     CenterAlignedTopAppBar(title = {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            if(showProfile){
-                Image(painter = painterResource(R.drawable.reading), contentDescription = "icon",
-                    modifier = Modifier
-                        .padding(end = 15.dp)
-                        .size(35.dp))
-            }
             Text(text = title,
                 color = MaterialTheme.colorScheme.onPrimaryContainer,
                 style = TextStyle(fontWeight = FontWeight.Bold,
@@ -54,6 +51,18 @@ fun AppBarbysans(title:String,
         }
     },
         navigationIcon = {
+            if(showProfile){
+                IconButton( modifier = Modifier
+                    .padding(start = 10.dp, end = 15.dp)
+                    .size(35.dp),
+                    onClick = {
+                    Toast.makeText(context, "Love you, keep learning, and keep reading books! \uD83D\uDE18", Toast.LENGTH_SHORT).show()
+                }) {
+                    Image(
+                        painter = painterResource(R.drawable.reading), contentDescription = "icon"
+                    )
+                }
+            }
             if(icon!=null){
                 IconButton(onClick = {
                     onBackArrowClicked.invoke()

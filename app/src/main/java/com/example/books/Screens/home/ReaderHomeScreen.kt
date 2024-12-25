@@ -136,7 +136,7 @@ fun HomeContent(navController: NavController){
             }
 
         }
-        ListCard()
+        ListCard(book = listofbook[0])
 
         Spacer(modifier = Modifier.height(15.dp))
 
@@ -164,7 +164,7 @@ fun BookListArea(listofBooks:List<Sbook>,navController: NavController,onCardPres
     val scrollableState = rememberScrollState()
 
     LazyRow(modifier = Modifier
-        .fillMaxWidth()
+        .fillMaxSize()
        // .horizontalScroll(scrollableState)
         .heightIn(280.dp)
     ) {

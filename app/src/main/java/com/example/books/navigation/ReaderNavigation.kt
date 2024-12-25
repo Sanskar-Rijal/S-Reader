@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.books.Screens.Search.SearchScreen
+import com.example.books.Screens.Search.SearchViewModel
 import com.example.books.Screens.SplashScreen
 import com.example.books.Screens.Stats.StatusScreen
 import com.example.books.Screens.home.Home
@@ -41,7 +42,8 @@ fun ReaderNavigation(){
         }
 
         composable(ReaderScreens.SearchScreen.name){
-            SearchScreen(navController)
+            val searchHiltViewmodel= hiltViewModel<SearchViewModel>()
+            SearchScreen(navController,searchHiltViewmodel)
         }
 
     }
