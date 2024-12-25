@@ -7,6 +7,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.books.Screens.Search.SearchScreen
 import com.example.books.Screens.SplashScreen
 import com.example.books.Screens.Stats.StatusScreen
 import com.example.books.Screens.home.Home
@@ -37,6 +38,10 @@ fun ReaderNavigation(){
         }
         composable(ReaderScreens.StatsScreen.name){
             StatusScreen(navController)
+        }
+
+        composable(ReaderScreens.SearchScreen.name){
+            SearchScreen(navController)
         }
 
     }

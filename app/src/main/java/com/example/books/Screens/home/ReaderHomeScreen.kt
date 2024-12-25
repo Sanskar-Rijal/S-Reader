@@ -51,7 +51,7 @@ fun Home(navController: NavController){
         },
         floatingActionButton = {
             FloatingContent {
-
+                navController.navigate(ReaderScreens.SearchScreen.name)
             }
         }){contentpadding->
         Surface(modifier = Modifier
