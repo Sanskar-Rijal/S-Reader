@@ -88,8 +88,9 @@ fun ShowBooks(navController: NavController,searchViewMode: SearchViewModel= hilt
             contentPadding = PaddingValues(5.dp)
         ) {
             items(listofbooks) {
-                SearchListCard(book = it, navController = navController) {
+                SearchListCard(book = it, navController = navController) {bookid->
                     //onclick
+                    navController.navigate(ReaderScreens.DetailScreen.name+"/$bookid")
                 }
             }
 

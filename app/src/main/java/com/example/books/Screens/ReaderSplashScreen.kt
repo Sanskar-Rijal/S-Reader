@@ -68,7 +68,7 @@ fun SplashScreen(navController: NavController){
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center) {
 
-            MainLogo() //making the color of red little bit dimmer
+            MainLogo(text = "S. Reader") //making the color of red little bit dimmer
 
             Spacer(modifier = Modifier.height(15.dp))
             Text(text = "\"Read. Change. Yourself\"", style = MaterialTheme.typography.headlineSmall,

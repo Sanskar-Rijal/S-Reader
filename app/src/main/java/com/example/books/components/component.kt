@@ -31,12 +31,15 @@ import androidx.compose.ui.unit.sp
 import kotlin.math.log
 
 @Composable
-fun MainLogo(modifier: Modifier = Modifier,logScreen:Boolean=false) {
+fun MainLogo(text:String,modifier: Modifier = Modifier,logScreen:Boolean=false) {
     Text(
         modifier = modifier,
-        text = "S. Reader", style = if(!logScreen) MaterialTheme.typography.headlineLarge
+        text = text,
+        style = if(!logScreen) MaterialTheme.typography.headlineLarge
         else MaterialTheme.typography.displayMedium,
-        color = Color.Red.copy(alpha = 0.5f)
+        color = if(!logScreen)Color.Red.copy(alpha = 0.5f)
+        else
+        MaterialTheme.colorScheme.onBackground
     )
 }
 @Composable
@@ -132,4 +135,6 @@ fun TitleSection(modifier: Modifier=Modifier,label :String){
         }
     }
 }
+
+
 

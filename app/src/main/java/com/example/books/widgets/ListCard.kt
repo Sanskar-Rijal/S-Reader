@@ -47,6 +47,7 @@ import com.example.books.R
 import com.example.books.model.Book
 import com.example.books.model.Item
 import com.example.books.model.Sbook
+import com.example.books.navigation.ReaderScreens
 
 
 @Composable
@@ -116,13 +117,15 @@ fun ListCard(
                     modifier = Modifier.padding(4.dp),
                     fontWeight = FontWeight.Bold,
                     maxLines = 2,
-                    overflow = TextOverflow.Clip)
+                    overflow = TextOverflow.Clip,
+                    color = MaterialTheme.colorScheme.onBackground)
             }// if we have more text that can't be displayed it will be clipped
 
             book.authors?.let {
                 Text(text= it,
                     modifier = Modifier.padding(4.dp),
-                    style = MaterialTheme.typography.bodySmall
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onBackground
                 )
             }
         }
@@ -198,13 +201,13 @@ fun roundedButton(
 fun SearchListCard(
     navController: NavController,
     book:Item,
-        onPressDetails:(String) -> Unit={}){
+    onPressDetails:(String) -> Unit={}){
     Card(modifier = Modifier
-        .height(115.dp)
+        //.height(115.dp)
         .fillMaxWidth()
         .padding(10.dp)
         .clickable {
-            //onPressDetails.invoke("Twilight")
+            onPressDetails.invoke(book.id)
         },
         shape = RectangleShape,
         elevation = CardDefaults.cardElevation(defaultElevation = 5.dp),
@@ -237,26 +240,30 @@ fun SearchListCard(
                         modifier = Modifier.padding(2.dp),
                         fontWeight = FontWeight.Bold,
                         maxLines = 2,
-                        overflow = TextOverflow.Clip)
+                        overflow = TextOverflow.Clip,
+                        color = MaterialTheme.colorScheme.onBackground)
                 }// if we have more text that can't be displayed it will be clipped
 
                 book.volumeInfo.authors.let {
                     Text(text="Author: $it ",
                         modifier = Modifier.padding(2.dp),
                         style = MaterialTheme.typography.bodySmall,
-                        fontStyle = FontStyle.Italic
+                        fontStyle = FontStyle.Italic,
+                        color = MaterialTheme.colorScheme.onBackground
                     )
                 }
                 Text(text="Date: ${book.volumeInfo.publishedDate}",
                     modifier = Modifier.padding(2.dp),
                     style = MaterialTheme.typography.bodySmall,
-                    fontStyle = FontStyle.Italic
+                    fontStyle = FontStyle.Italic,
+                    color = MaterialTheme.colorScheme.onBackground
                 )
 
                 Text(text="${book.volumeInfo.categories}",
                     modifier = Modifier.padding(2.dp),
                     style = MaterialTheme.typography.bodySmall,
-                    fontStyle = FontStyle.Italic
+                    fontStyle = FontStyle.Italic,
+                    color = MaterialTheme.colorScheme.onBackground
                 )
             }
         }

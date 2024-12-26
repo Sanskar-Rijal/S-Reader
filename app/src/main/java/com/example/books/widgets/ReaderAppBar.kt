@@ -44,7 +44,7 @@ fun AppBarbysans(title:String,
     CenterAlignedTopAppBar(title = {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(text = title,
-                color = MaterialTheme.colorScheme.onPrimaryContainer,
+                color = MaterialTheme.colorScheme.onBackground,
                 style = TextStyle(fontWeight = FontWeight.Bold,
                     fontSize = 23.sp)
             )

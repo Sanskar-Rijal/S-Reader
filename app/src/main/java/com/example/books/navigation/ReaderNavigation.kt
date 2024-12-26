@@ -2,15 +2,19 @@ package com.example.books.navigation
 
 import android.net.http.UrlRequest.Status
 import androidx.compose.runtime.Composable
+import androidx.fragment.app.FragmentManager.BackStackEntry
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.books.Screens.Search.SearchScreen
 import com.example.books.Screens.Search.SearchViewModel
 import com.example.books.Screens.SplashScreen
 import com.example.books.Screens.Stats.StatusScreen
+import com.example.books.Screens.details.BookDetailScreen
 import com.example.books.Screens.home.Home
 import com.example.books.Screens.login.LoginScreen
 import com.example.books.Screens.login.LoginViewModel
@@ -44,6 +48,21 @@ fun ReaderNavigation(){
         composable(ReaderScreens.SearchScreen.name){
             val searchHiltViewmodel= hiltViewModel<SearchViewModel>()
             SearchScreen(navController,searchHiltViewmodel)
+        }
+
+        //we want bookId from SearchScreen
+        //www.google.com/bookid="SpiderMan" we are passing the city variable like the url in web
+        val route=ReaderScreens.DetailScreen.name
+        composable("$route/{bookid}",
+            arguments = listOf(navArgument(name="bookid"){
+                type= NavType.StringType
+            })
+        ){ BackStackEntry->
+            BackStackEntry.arguments?.getString("bookid").let{bookid->
+                if (bookid != null) {
+                    BookDetailScreen(navController=navController, bookId =bookid.toString())
+                }
+            }
         }
 
     }
