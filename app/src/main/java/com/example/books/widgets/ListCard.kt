@@ -209,7 +209,9 @@ fun SearchListCard(
         modifier = Modifier
             .fillMaxWidth()
             .padding(10.dp)
-            .clickable { onPressDetails.invoke(book.id) },
+            .clickable {
+                book.id?.let { onPressDetails.invoke(it) }
+                       },
         shape = RectangleShape,
         elevation = CardDefaults.cardElevation(defaultElevation = 5.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
@@ -220,15 +222,15 @@ fun SearchListCard(
                 .padding(3.dp),
             verticalAlignment = Alignment.Top
         ) {
-            Log.d("mentalism", "SearchListCard: the book image is ${book.volumeInfo.imageLinks?.smallThumbnail ?: "no image"} ")
+            Log.d("mentalism", "SearchListCard: the book image is ${book.volumeInfo?.imageLinks?.smallThumbnail ?: "no image"} ")
 
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(
-                        if (book.volumeInfo.imageLinks?.smallThumbnail.isNullOrEmpty())
+                        if (book.volumeInfo?.imageLinks?.smallThumbnail.isNullOrEmpty())
                             "https://books.google.com/books/content?id=EKV6zgEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api"
                         else
-                            book.volumeInfo.imageLinks?.smallThumbnail
+                            book.volumeInfo?.imageLinks?.smallThumbnail
                     )
                     .crossfade(true)
                     .build(),
@@ -247,7 +249,7 @@ fun SearchListCard(
                 horizontalAlignment = Alignment.Start
             ) {
                 Text(
-                    text = book.volumeInfo.title ?: "No Title",
+                    text = book.volumeInfo?.title ?: "No Title",
                     modifier = Modifier.padding(2.dp),
                     fontWeight = FontWeight.Bold,
                     maxLines = 2,
@@ -256,7 +258,7 @@ fun SearchListCard(
                 )
 
                 Text(
-                    text = "Author: ${book.volumeInfo.authors?.joinToString() ?: "Unknown"}",
+                    text = "Author: ${book.volumeInfo?.authors?.joinToString() ?: "Unknown"}",
                     modifier = Modifier.padding(2.dp),
                     style = MaterialTheme.typography.bodySmall,
                     fontStyle = FontStyle.Italic,
@@ -264,7 +266,7 @@ fun SearchListCard(
                 )
 
                 Text(
-                    text = "Date: ${book.volumeInfo.publishedDate?: "Unknown Date"}",
+                    text = "Date: ${book.volumeInfo?.publishedDate?: "Unknown Date"}",
                     modifier = Modifier.padding(2.dp),
                     style = MaterialTheme.typography.bodySmall,
                     fontStyle = FontStyle.Italic,
@@ -272,7 +274,7 @@ fun SearchListCard(
                 )
 
                 Text(
-                    text = "${book.volumeInfo.categories?.joinToString() ?: "No Categories"}",
+                    text = "${book.volumeInfo?.categories?.joinToString() ?: "No Categories"}",
                     modifier = Modifier.padding(2.dp),
                     style = MaterialTheme.typography.bodySmall,
                     fontStyle = FontStyle.Italic,

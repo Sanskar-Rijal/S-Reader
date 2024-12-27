@@ -42,16 +42,6 @@ fun SearchScreen(navController: NavController,
                  searchViewModel: SearchViewModel= hiltViewModel()
                  ){
 
-
-
-    val books:List<Sbook> =listOf(
-        Sbook(id="sdfasf", title = "sdfasfa", authors = "ahsdfasf", notes = "asdfafs"),
-        Sbook(id="sdfasf", title = "wer", authors = "fdsa", notes = "fwef"),
-        Sbook(id="adsf", title = "dsf", authors = "dvdcd", notes = "sfs"),
-        Sbook(id="dfg", title = "43re", authors = "ahsdfasf", notes = "ewrwe"),
-        Sbook(id="sdfwerasf", title = "sdfsa", authors = "sdfa", notes = "vcbdvb")
-    )
-
     Scaffold(topBar = {
         AppBarbysans(title = "Search Books", showProfile = false,
             navController = NavController(LocalContext.current),

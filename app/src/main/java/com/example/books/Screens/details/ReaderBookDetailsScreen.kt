@@ -104,6 +104,7 @@ fun BookDetailScreen(navController: NavController=NavController(LocalContext.cur
                     Text(text = "Loading.......")
                 }else
                 {
+                    Log.d("samridheee", "BookDetailScreen: $bookInfo ")
                     ShowBookDetails(bookInfo,navController)
                 }
             }
@@ -124,11 +125,11 @@ fun ShowBookDetails(bookinfo:Item,navController: NavController){
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
                 .data(
-                    if(bookinfo.volumeInfo.imageLinks?.smallThumbnail.isNullOrEmpty()){
+                    if(bookinfo.volumeInfo?.imageLinks?.smallThumbnail.isNullOrEmpty()){
                         "https://books.google.com/books/content?id=EKV6zgEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api"
                     }
                             else
-                    bookinfo.volumeInfo.imageLinks?.smallThumbnail
+                    bookinfo.volumeInfo?.imageLinks?.smallThumbnail
                 )
                 .crossfade(true)
                 .build(),
@@ -143,7 +144,7 @@ fun ShowBookDetails(bookinfo:Item,navController: NavController){
         Spacer(modifier = Modifier.width(20.dp))
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Text(
-                text = bookData.title?:"No Title",
+                text = bookData?.title?:"No Title",
                 style = MaterialTheme.typography.titleLarge,
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 15,
@@ -153,33 +154,33 @@ fun ShowBookDetails(bookinfo:Item,navController: NavController){
             )
 
             Text(
-                text = "Author: ${bookData.authors?:"No Author"}",
+                text = "Author: ${bookData?.authors?.joinToString()?:"No Author"}",
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onBackground,
                 modifier = Modifier.padding(5.dp)
             )
         }
     }
-    Text(text ="Total number of pages: ${bookData.pageCount?:"Unknown"}",
+    Text(text ="Total number of pages: ${bookData?.pageCount.toString()?:"Unknown"}",
         style = MaterialTheme.typography.bodyMedium,
         color = MaterialTheme.colorScheme.onBackground,
         modifier = Modifier.padding(5.dp))
 
-    Text(text ="Categories: ${bookData.categories.joinToString()?:"Unknown"}",
+    Text(text ="Categories: ${bookData?.categories?.joinToString()?:"Unknown"}",
         style = MaterialTheme.typography.bodyMedium,
         maxLines = 5,
         overflow = TextOverflow.Ellipsis,
         color = MaterialTheme.colorScheme.onBackground,
         modifier = Modifier.padding(5.dp))
 
-    Text(text = "Published Date: ${bookData.publishedDate?:"khaiii,Kei na kei ta ho"}",
+    Text(text = "Published Date: ${bookData?.publishedDate?:"khaiii,Kei na kei ta ho"}",
         style = MaterialTheme.typography.bodyMedium,
         color = MaterialTheme.colorScheme.onBackground,
         modifier = Modifier.padding(5.dp))
 
     Spacer(modifier = Modifier.height(7.dp))
 
-    val CleanDescription = HtmlCompat.fromHtml(bookData.description,
+    val CleanDescription = HtmlCompat.fromHtml(bookData?.description?:"Description xaina yo book ko, ma lekhdinxu description,'sanskar nam vako manxe sarai gyani hunxan rey dhanaybadh'\uD83D\uDE0E,",
         HtmlCompat.FROM_HTML_MODE_LEGACY).toString()
     //using LazyColumn for description
 
@@ -197,7 +198,7 @@ fun ShowBookDetails(bookinfo:Item,navController: NavController){
     LazyColumn(modifier = Modifier.padding(3.dp)) {
         item {
             //now we are removing the HTML TAGS
-            Text(text = CleanDescription,
+            Text(text = CleanDescription?:"No description",
                 modifier = Modifier.padding(4.dp))
             }
         }
@@ -210,14 +211,14 @@ fun ShowBookDetails(bookinfo:Item,navController: NavController){
 
         StylishButton(label = "Save"){
             //save book to firebase
-            val book = Sbook(title = bookData.title?:"No title",
-                authors = bookData.authors?.toString()?:"No authors",
-                descrption = bookData.description?:"No description",
-                category = bookData.categories?.toString()?:"Unknown",
+            val book = Sbook(title = bookData?.title?:"No title",
+                authors = bookData?.authors?.toString()?:"No authors",
+                descrption = bookData?.description?:"No description",
+                category = bookData?.categories?.toString()?:"Unknown",
                 notes = "",
-                photoUrl = bookData.imageLinks?.thumbnail?:"Unknown",
-                publishedDate = bookData.publishedDate?:"Unknown",
-                pagecount = bookData.pageCount?.toString()?:"Unknown",
+                photoUrl = bookData?.imageLinks?.thumbnail?:"Unknown",
+                publishedDate = bookData?.publishedDate?:"Unknown",
+                pagecount = bookData?.pageCount?.toString()?:"Unknown",
                 rating = 0.0,
                 googleBookId = id,
                 userId = FirebaseAuth.getInstance().currentUser?.uid.toString()

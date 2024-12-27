@@ -39,7 +39,7 @@ class BooksRepository @Inject constructor(
             return DataorException.Error(message ="An Error Occured ${ex.message.toString()}")
          }
         DataorException.Loading(data = false)
-        Log.d("flower", "getBookInfo: ${response.volumeInfo.title} ")
+        Log.d("flower", "getBookInfo: ${response.volumeInfo?.title} ")
         return DataorException.Success(data = response)
     }
 }
