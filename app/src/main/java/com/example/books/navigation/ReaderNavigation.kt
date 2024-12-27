@@ -16,6 +16,7 @@ import com.example.books.Screens.SplashScreen
 import com.example.books.Screens.Stats.StatusScreen
 import com.example.books.Screens.details.BookDetailScreen
 import com.example.books.Screens.home.Home
+import com.example.books.Screens.home.HomeScreenViewmodel
 import com.example.books.Screens.login.LoginScreen
 import com.example.books.Screens.login.LoginViewModel
 import com.example.books.components.NotificationMessage
@@ -39,7 +40,8 @@ fun ReaderNavigation(){
         }
 
         composable(ReaderScreens.ReaderHomeScreen.name){
-            Home(navController)
+            var homeViewmodel = hiltViewModel<HomeScreenViewmodel>()
+            Home(navController,homeViewmodel)
         }
         composable(ReaderScreens.StatsScreen.name){
             StatusScreen(navController)

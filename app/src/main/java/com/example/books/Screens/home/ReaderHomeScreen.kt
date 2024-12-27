@@ -1,5 +1,6 @@
 package com.example.books.Screens.home
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
@@ -23,6 +24,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -34,17 +36,19 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.books.components.TitleSection
 import com.example.books.model.Sbook
 import com.example.books.navigation.ReaderScreens
 import com.example.books.widgets.AppBarbysans
 import com.example.books.widgets.ListCard
+import com.google.api.Distribution.BucketOptions.Linear
 import com.google.firebase.auth.FirebaseAuth
 
 
 @Composable
-fun Home(navController: NavController){
+fun Home(navController: NavController,viewmodel: HomeScreenViewmodel= hiltViewModel()){
     Scaffold(
         topBar = {
             AppBarbysans(title = "S. Reader", navController = navController)
@@ -58,7 +62,7 @@ fun Home(navController: NavController){
             .padding(contentpadding)
             .fillMaxSize()) {
 
-            HomeContent(navController)
+            HomeContent(navController,viewmodel)
         }
 
     }
@@ -81,69 +85,91 @@ fun FloatingContent(onClick:(String)->Unit ){
 
 //contenetforhome Section
 @Composable
-fun HomeContent(navController: NavController){
+fun HomeContent(navController: NavController,viewmodel: HomeScreenViewmodel) {
 
     //checking Card view
-    val listofbook:List<Sbook> = listOf(
-        Sbook(id="sdfasf", title = "sdfasfa", authors = "ahsdfasf", notes = "asdfafs"),
-        Sbook(id="sdfasf", title = "wer", authors = "fdsa", notes = "fwef"),
-        Sbook(id="adsf", title = "dsf", authors = "dvdcd", notes = "sfs"),
-        Sbook(id="dfg", title = "43re", authors = "ahsdfasf", notes = "ewrwe"),
-        Sbook(id="sdfwerasf", title = "sdfsa", authors = "sdfa", notes = "vcbdvb")
-    )
+//    val listofbook:List<Sbook> = listOf(
+//        Sbook(id="sdfasf", title = "sdfasfa", authors = "ahsdfasf", notes = "asdfafs"),
+//        Sbook(id="sdfasf", title = "wer", authors = "fdsa", notes = "fwef"),
+//        Sbook(id="adsf", title = "dsf", authors = "dvdcd", notes = "sfs"),
+//        Sbook(id="dfg", title = "43re", authors = "ahsdfasf", notes = "ewrwe"),
+//        Sbook(id="sdfwerasf", title = "sdfsa", authors = "sdfa", notes = "vcbdvb")
+//    )
 
+    var listofbook = emptyList<Sbook>()
+
+    val currentUser = FirebaseAuth.getInstance().currentUser
+    Log.d("smriti", "HomeContent: ${viewmodel.list} ")
+    if (!viewmodel.list.isNullOrEmpty()) {
+        listofbook = viewmodel.list.toList().filter { sbook ->
+            sbook.userId == currentUser?.uid.toString()
+        }
+        Log.d("rijal", "HomeContent: $listofbook ")
+    }
+    Log.d("samridheeee", "${viewmodel.list}")
     //getting current user form firebase Auth
-    val currentUserName=if(!FirebaseAuth.getInstance().currentUser?.email.isNullOrEmpty()) {
+    val currentUserName = if (!FirebaseAuth.getInstance().currentUser?.email.isNullOrEmpty()) {
         FirebaseAuth.getInstance().currentUser?.email?.split("@")?.get(0)
-    }else{
+    } else {
         "N/A"
     }
 
 
-    Column(modifier = Modifier
-        .padding(4.dp),
-        verticalArrangement = Arrangement.Top) {
+    Column(
+        modifier = Modifier
+            .padding(4.dp),
+        verticalArrangement = Arrangement.Top
+    ) {
+        if (listofbook.isNullOrEmpty()) {
+            LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
+            Text(text = "Loading.......")
+        } else {
 
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                //  .align(alignment = Alignment.Start),
+                // ,horizontalArrangement = Arrangement.SpaceBetween,
+                , verticalAlignment = Alignment.CenterVertically
+            ) {
 
-        Row(modifier = Modifier
-            .fillMaxWidth()
-          //  .align(alignment = Alignment.Start),
-           // ,horizontalArrangement = Arrangement.SpaceBetween,
-            ,verticalAlignment = Alignment.CenterVertically) {
+                TitleSection(label = "Your reading \n" + "activity right now....")
 
-            TitleSection(label = "Your reading \n" +"activity right now....")
+                Spacer(modifier = Modifier.fillMaxWidth(0.3f))
 
-            Spacer(modifier = Modifier.fillMaxWidth(0.3f))
-
-           Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                //profile Icon
-                Icon(imageVector = Icons.Default.AccountCircle,
-                    modifier = Modifier.clickable {
-                        //something to do
-                        navController.navigate(ReaderScreens.StatsScreen.name)
-                    }
-                        .size(50.dp),
-                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
-                    contentDescription = "icon")
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    //profile Icon
+                    Icon(imageVector = Icons.Default.AccountCircle,
+                        modifier = Modifier
+                            .clickable {
+                                //something to do
+                                navController.navigate(ReaderScreens.StatsScreen.name)
+                            }
+                            .size(50.dp),
+                        tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                        contentDescription = "icon")
                     //UserName
-                Text(text = currentUserName!!,
-                    modifier = Modifier.padding(2.dp),
-                    style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.onPrimaryContainer,
-                    fontSize = 17.sp,
-                    maxLines = 1,
-                    overflow = TextOverflow.Clip)
-                HorizontalDivider()
+                    Text(
+                        text = currentUserName!!,
+                        modifier = Modifier.padding(2.dp),
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer,
+                        fontSize = 17.sp,
+                        maxLines = 1,
+                        overflow = TextOverflow.Clip
+                    )
+                    HorizontalDivider()
+                }
+
             }
+            ListCard(book = listofbook[0])
+
+            Spacer(modifier = Modifier.height(15.dp))
+
+            //creating Reading List
+            ReadingRightNowArea(books = listofbook, navController = navController)
 
         }
-        ListCard(book = listofbook[0])
-
-        Spacer(modifier = Modifier.height(15.dp))
-
-        //creating Reading List
-        ReadingRightNowArea(books = listofbook,navController=navController)
-
     }
 }
 
@@ -162,11 +188,11 @@ fun ReadingRightNowArea(books:List<Sbook>, navController: NavController){
 @Composable
 fun BookListArea(listofBooks:List<Sbook>,navController: NavController,onCardPressed:(String)->Unit){
 
-    val scrollableState = rememberScrollState()
+    //val scrollableState = rememberScrollState()
 
     LazyRow(modifier = Modifier
         .fillMaxSize()
-       // .horizontalScroll(scrollableState)
+        // .horizontalScroll(scrollableState)
         .heightIn(280.dp)
     ) {
         items(items = listofBooks){book->
