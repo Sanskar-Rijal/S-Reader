@@ -20,7 +20,7 @@ data class Sbook(
     @set:PropertyName("published_date")
     var publishedDate:String?=null, //in data base it should save as publish_date
 
-    var rating:String?=null,
+    var rating:Double?=null,
     var descrption:String?=null,
 
     @get:PropertyName("stared_Reading")
@@ -37,5 +37,9 @@ data class Sbook(
 
     @get:PropertyName("google_book_id")
     @set:PropertyName("google_book_id")
-    var googleBookId:String?=null
+    var googleBookId:String?=null,
+
+    @get:PropertyName("page_count")
+    @set:PropertyName("page_count")
+    var pagecount:String?= null
 )

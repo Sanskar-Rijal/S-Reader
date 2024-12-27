@@ -67,7 +67,6 @@ fun SearchScreen(navController: NavController,
 
                 SearchBar(){bookName-> //this lamda i.e bookName gives the Name of the Book
                     searchViewModel.SearchBooks(bookName)
-
                 }
                 ShowBooks(navController=navController)
                 BookNotFound(searchViewModel)

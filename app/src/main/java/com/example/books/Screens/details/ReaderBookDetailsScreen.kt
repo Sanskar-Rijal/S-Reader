@@ -48,6 +48,8 @@ import com.example.books.model.Item
 import com.example.books.model.Sbook
 import com.example.books.navigation.ReaderScreens
 import com.example.books.widgets.AppBarbysans
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Delay
 import kotlinx.coroutines.delay
@@ -116,11 +118,18 @@ fun ShowBookDetails(bookinfo:Item,navController: NavController){
     val bookData = bookinfo.volumeInfo
     val id=bookinfo.id
 
-    Row(modifier = Modifier.fillMaxWidth()
+    Row(modifier = Modifier
+        .fillMaxWidth()
         .padding(10.dp)) {
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
-                .data(bookinfo.volumeInfo.imageLinks.smallThumbnail)
+                .data(
+                    if(bookinfo.volumeInfo.imageLinks?.smallThumbnail.isNullOrEmpty()){
+                        "https://books.google.com/books/content?id=EKV6zgEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api"
+                    }
+                            else
+                    bookinfo.volumeInfo.imageLinks?.smallThumbnail
+                )
                 .crossfade(true)
                 .build(),
             placeholder = painterResource(R.drawable.dummy),
@@ -134,7 +143,7 @@ fun ShowBookDetails(bookinfo:Item,navController: NavController){
         Spacer(modifier = Modifier.width(20.dp))
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Text(
-                text = bookData.title,
+                text = bookData.title?:"No Title",
                 style = MaterialTheme.typography.titleLarge,
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 15,
@@ -144,26 +153,26 @@ fun ShowBookDetails(bookinfo:Item,navController: NavController){
             )
 
             Text(
-                text = "Author: ${bookData.authors}",
+                text = "Author: ${bookData.authors?:"No Author"}",
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onBackground,
                 modifier = Modifier.padding(5.dp)
             )
         }
     }
-    Text(text ="Total number of pages: ${bookData.pageCount}",
+    Text(text ="Total number of pages: ${bookData.pageCount?:"Unknown"}",
         style = MaterialTheme.typography.bodyMedium,
         color = MaterialTheme.colorScheme.onBackground,
         modifier = Modifier.padding(5.dp))
 
-    Text(text ="Categories: ${bookData.categories}",
+    Text(text ="Categories: ${bookData.categories.joinToString()?:"Unknown"}",
         style = MaterialTheme.typography.bodyMedium,
         maxLines = 5,
         overflow = TextOverflow.Ellipsis,
         color = MaterialTheme.colorScheme.onBackground,
         modifier = Modifier.padding(5.dp))
 
-    Text(text = "Published Date: ${bookData.publishedDate}",
+    Text(text = "Published Date: ${bookData.publishedDate?:"khaiii,Kei na kei ta ho"}",
         style = MaterialTheme.typography.bodyMedium,
         color = MaterialTheme.colorScheme.onBackground,
         modifier = Modifier.padding(5.dp))
@@ -201,8 +210,19 @@ fun ShowBookDetails(bookinfo:Item,navController: NavController){
 
         StylishButton(label = "Save"){
             //save book to firebase
-            val book = Sbook(id=id, title = bookData.title, authors = bookData.authors, notes = bookData.description)
-            SavetoFirebase()
+            val book = Sbook(title = bookData.title?:"No title",
+                authors = bookData.authors?.toString()?:"No authors",
+                descrption = bookData.description?:"No description",
+                category = bookData.categories?.toString()?:"Unknown",
+                notes = "",
+                photoUrl = bookData.imageLinks?.thumbnail?:"Unknown",
+                publishedDate = bookData.publishedDate?:"Unknown",
+                pagecount = bookData.pageCount?.toString()?:"Unknown",
+                rating = 0.0,
+                googleBookId = id,
+                userId = FirebaseAuth.getInstance().currentUser?.uid.toString()
+                )
+            SavetoFirebase(book,navController)
         }
         StylishButton(label = "Cancel"){
             navController.popBackStack()
@@ -211,7 +231,25 @@ fun ShowBookDetails(bookinfo:Item,navController: NavController){
     }
 }
 
-@Composable
-fun SavetoFirebase(book:Sbook){
+
+fun SavetoFirebase(book:Sbook,navController: NavController){
     val db = FirebaseFirestore.getInstance()
+    val dbcollection =db.collection("books")
+    if (book.toString().isNotEmpty()){
+        dbcollection.add(book).addOnSuccessListener {documentRef-> //contains the id of the book
+
+            val documentId=documentRef.id //moving the id to variable documentid
+
+            dbcollection.document(documentId) //then again addingn it to collection
+                .update(hashMapOf("id" to documentId) as Map<String, Any>)
+                .addOnCompleteListener{task->
+                    if(task.isSuccessful){
+                        navController.popBackStack()
+                    }
+                }
+        }.addOnFailureListener{
+            Log.d("update", "SavetoFirebase: ${it.message} ")
+        }
+
+    }
 }

@@ -34,7 +34,7 @@ class SearchViewModel @Inject constructor(private val repository: BooksRepositor
     }
 
     private fun loadBooks(){
-        SearchBooks("brawl stars")
+        SearchBooks("Hotel Transylvania")
     }
 
      fun SearchBooks(name:String){
@@ -55,7 +55,7 @@ class SearchViewModel @Inject constructor(private val repository: BooksRepositor
                         if(list.isNotEmpty()){
                             isLoading=false
                         }
-                        Log.d("data", "Books received from api $list")
+                        Log.d("sanskar", "Books received from api $list")
                     }
                     is DataorException.Error->{
                         isLoading=false
@@ -65,6 +65,7 @@ class SearchViewModel @Inject constructor(private val repository: BooksRepositor
                     }
                     else->{
                         isLoading=false
+                        Log.d("samri", "Else branch ")
                     }
                 }
             }catch (ex:Exception){

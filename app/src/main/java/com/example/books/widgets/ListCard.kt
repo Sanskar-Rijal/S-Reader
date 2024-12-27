@@ -1,5 +1,6 @@
 package com.example.books.widgets
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -79,7 +80,7 @@ fun ListCard(
 
         Column(modifier = Modifier
             .padding(3.dp)
-            .width(screenWidth.dp-(spacing*2)),
+            .width(screenWidth.dp - (spacing * 2)),
             horizontalAlignment = Alignment.Start
             ) {//making the width of the column dynamic depending on the content inside it
 
@@ -141,7 +142,7 @@ fun ListCard(
 //creating composable for book rating
 @Composable
 fun BookRatingScore(rating:Double=4.5){
-    Surface(modifier =  Modifier
+    Surface(modifier = Modifier
         .height(70.dp)
         .padding(4.dp),
         shape = RoundedCornerShape(50.dp),
@@ -201,66 +202,77 @@ fun roundedButton(
 @Composable
 fun SearchListCard(
     navController: NavController,
-    book:Item,
-    onPressDetails:(String) -> Unit={}){
-    Card(modifier = Modifier
-        //.height(115.dp)
-        .fillMaxWidth()
-        .padding(10.dp)
-        .clickable {
-            onPressDetails.invoke(book.id)
-        },
+    book: Item,
+    onPressDetails: (String) -> Unit = {}
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(10.dp)
+            .clickable { onPressDetails.invoke(book.id) },
         shape = RectangleShape,
         elevation = CardDefaults.cardElevation(defaultElevation = 5.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)) {
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(3.dp),
+            verticalAlignment = Alignment.Top
+        ) {
+            Log.d("mentalism", "SearchListCard: the book image is ${book.volumeInfo.imageLinks?.smallThumbnail ?: "no image"} ")
 
-        Row(modifier = Modifier
-            .fillMaxSize()
-            .padding(3.dp),
-            verticalAlignment = Alignment.Top) {
-            AsyncImage(model = ImageRequest.Builder(LocalContext.current)
-                .data(if(book.volumeInfo.imageLinks.smallThumbnail.isEmpty())
-                    "https://books.google.com/books/content?id=EKV6zgEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api"
-                else
-            book.volumeInfo.imageLinks.smallThumbnail)
-                .crossfade(true)
-                .build(),
-                placeholder= painterResource(R.drawable.dummy),
-                contentDescription ="hehehe",
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(
+                        if (book.volumeInfo.imageLinks?.smallThumbnail.isNullOrEmpty())
+                            "https://books.google.com/books/content?id=EKV6zgEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api"
+                        else
+                            book.volumeInfo.imageLinks?.smallThumbnail
+                    )
+                    .crossfade(true)
+                    .build(),
+                placeholder = painterResource(R.drawable.dummy),
+                contentDescription = "hehehe",
                 contentScale = ContentScale.FillBounds,
                 modifier = Modifier
                     .height(120.dp)
                     .width(90.dp)
-                    .padding(4.dp))
+                    .padding(4.dp)
+            )
             Spacer(Modifier.width(20.dp))
 
-            Column(verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.Start) {
-                book.volumeInfo.title.let {
-                    Text(text = it,
-                        modifier = Modifier.padding(2.dp),
-                        fontWeight = FontWeight.Bold,
-                        maxLines = 2,
-                        overflow = TextOverflow.Clip,
-                        color = MaterialTheme.colorScheme.onBackground)
-                }// if we have more text that can't be displayed it will be clipped
+            Column(
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.Start
+            ) {
+                Text(
+                    text = book.volumeInfo.title ?: "No Title",
+                    modifier = Modifier.padding(2.dp),
+                    fontWeight = FontWeight.Bold,
+                    maxLines = 2,
+                    overflow = TextOverflow.Clip,
+                    color = MaterialTheme.colorScheme.onBackground
+                )
 
-                book.volumeInfo.authors.let {
-                    Text(text="Author: $it ",
-                        modifier = Modifier.padding(2.dp),
-                         style = MaterialTheme.typography.bodySmall,
-                        fontStyle = FontStyle.Italic,
-                        color = MaterialTheme.colorScheme.onBackground
-                    )
-                }
-                Text(text="Date: ${book.volumeInfo.publishedDate}",
+                Text(
+                    text = "Author: ${book.volumeInfo.authors?.joinToString() ?: "Unknown"}",
                     modifier = Modifier.padding(2.dp),
                     style = MaterialTheme.typography.bodySmall,
                     fontStyle = FontStyle.Italic,
                     color = MaterialTheme.colorScheme.onBackground
                 )
 
-                Text(text="${book.volumeInfo.categories}",
+                Text(
+                    text = "Date: ${book.volumeInfo.publishedDate?: "Unknown Date"}",
+                    modifier = Modifier.padding(2.dp),
+                    style = MaterialTheme.typography.bodySmall,
+                    fontStyle = FontStyle.Italic,
+                    color = MaterialTheme.colorScheme.onBackground
+                )
+
+                Text(
+                    text = "${book.volumeInfo.categories?.joinToString() ?: "No Categories"}",
                     modifier = Modifier.padding(2.dp),
                     style = MaterialTheme.typography.bodySmall,
                     fontStyle = FontStyle.Italic,
@@ -268,6 +280,5 @@ fun SearchListCard(
                 )
             }
         }
-
     }
 }
