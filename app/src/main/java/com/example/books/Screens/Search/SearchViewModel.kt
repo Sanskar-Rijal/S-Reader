@@ -34,7 +34,7 @@ class SearchViewModel @Inject constructor(private val repository: BooksRepositor
     }
 
     private fun loadBooks(){
-        SearchBooks("twilight")
+        SearchBooks("brawl stars")
     }
 
      fun SearchBooks(name:String){

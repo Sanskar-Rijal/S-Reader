@@ -56,7 +56,7 @@ fun AppBarbysans(title:String,
                     .padding(start = 10.dp, end = 15.dp)
                     .size(35.dp),
                     onClick = {
-                    Toast.makeText(context, "Love you, keep learning, and keep reading books! \uD83D\uDE18", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "keep learning, and keep reading books! \uD83D\uDE18", Toast.LENGTH_SHORT).show()
                 }) {
                     Image(
                         painter = painterResource(R.drawable.reading), contentDescription = "icon"

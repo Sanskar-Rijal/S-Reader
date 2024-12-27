@@ -163,6 +163,7 @@ fun BookRatingScore(rating:Double=4.5){
 
 //creating another Composabel to show  whether user is reading the book or not
 @Composable
+@Preview
 fun roundedButton(
     label:String="Reading",
     radius:Int=30,
