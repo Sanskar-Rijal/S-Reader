@@ -1,10 +1,12 @@
 package com.example.books.repository
 
 import android.provider.ContactsContract.Data
+import android.util.Log
 import com.example.books.data.DataorException
 import com.example.books.model.Item
 import com.example.books.network.BooksApi
 import javax.inject.Inject
+import kotlin.math.log
 
 //we inject weather_api so that we can access the data
 class BooksRepository @Inject constructor(
@@ -20,7 +22,7 @@ class BooksRepository @Inject constructor(
            if(itemList.isNotEmpty()){
                DataorException.Loading(data = false)
            }
-
+           Log.d("fyo", "getBooks: $itemList")
             DataorException.Success(data = itemList)
 
         }catch(ex:Exception){
@@ -37,6 +39,7 @@ class BooksRepository @Inject constructor(
             return DataorException.Error(message ="An Error Occured ${ex.message.toString()}")
          }
         DataorException.Loading(data = false)
+        Log.d("flower", "getBookInfo: ${response.volumeInfo.title} ")
         return DataorException.Success(data = response)
     }
 }

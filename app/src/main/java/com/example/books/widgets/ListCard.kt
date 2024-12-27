@@ -247,7 +247,7 @@ fun SearchListCard(
                 book.volumeInfo.authors.let {
                     Text(text="Author: $it ",
                         modifier = Modifier.padding(2.dp),
-                        style = MaterialTheme.typography.bodySmall,
+                         style = MaterialTheme.typography.bodySmall,
                         fontStyle = FontStyle.Italic,
                         color = MaterialTheme.colorScheme.onBackground
                     )

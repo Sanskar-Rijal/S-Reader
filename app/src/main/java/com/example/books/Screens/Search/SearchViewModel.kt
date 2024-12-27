@@ -59,7 +59,7 @@ class SearchViewModel @Inject constructor(private val repository: BooksRepositor
                     }
                     is DataorException.Error->{
                         isLoading=false
-                        Log.d("samri", "SearchBooks:Failed Getting The Books ")
+                        Log.d("samri", "SearchBooks:Failed Getting The Books ${response.message} ")
                         handleException(CustomMsg = "Book Not Found")
 
                     }
@@ -68,7 +68,7 @@ class SearchViewModel @Inject constructor(private val repository: BooksRepositor
                     }
                 }
             }catch (ex:Exception){
-                Log.d("api", "SearchBooks: ${ex.message.toString()} ")
+                Log.d("heheh", "SearchBooks: ${ex.message.toString()} ")
         }
 
         }

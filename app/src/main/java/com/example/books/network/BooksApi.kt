@@ -2,6 +2,7 @@ package com.example.books.network
 
 import com.example.books.model.Book
 import com.example.books.model.Item
+import com.example.books.utils.Constants
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -19,15 +20,20 @@ interface BooksApi {
      *     here we have to pass "volumes" we are appending the path previously we had stored
      *     https://www.googleapis.com/books/v1/ right? so we are adding volume behind
      */
+    //https://www.googleapis.com/books/v1/volumes?q=flowers+inauthor:keyes&key=
     @GET(value ="volumes")
     suspend fun getAllBook(
         //now we will pass the Query q=... will be a name of book which is of type String
-        @Query(value = "q") book:String):Book
+        @Query(value = "q") book:String,
+        @Query(value = "key") key:String=Constants.Api_key):Book
+
     //remember? we created a class called Book using Json file which is the main class , json file willl return BOOK
 
 
-    @GET(value = "volumes/{bookId}")
-    suspend fun getBookInfo(@Path("bookID")bookId:String):Item //inside path the name should be same as above volumes/{.samename.}
+    @GET(value = "volumes/{bookID}")
+    suspend fun getBookInfo(
+        @Path("bookID")bookId:String,
+        @Query(value = "key") key: String=Constants.Api_key):Item//inside path the name should be same as above volumes/{.samename.}
 
     /**
      * The @Path("bookID") annotation in Retrofit
