@@ -49,11 +49,12 @@ import com.example.books.model.Book
 import com.example.books.model.Item
 import com.example.books.model.Sbook
 import com.example.books.navigation.ReaderScreens
+import kotlin.math.log
 
 
 @Composable
 fun ListCard(
-    book:Sbook=Sbook(id="asdf", title = "Running", authors = "Me and you ", notes = "sans is pro"),
+    book:Sbook,
     onPressDetails:(String) -> Unit={}){ //on pressed will return the id of book
 
     //creating context about this composable
@@ -71,7 +72,8 @@ fun ListCard(
         .width(208.dp)
         .padding(10.dp)
         .clickable {
-            book.id?.let { onPressDetails.invoke(it) }
+            Log.d("april", "ListCard: the id of book is ${book.id} ")
+            book.googleBookId?.let { onPressDetails.invoke(it) }
         },
         shape = RoundedCornerShape(20.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 5.dp),
@@ -215,7 +217,7 @@ fun SearchListCard(
             .padding(10.dp)
             .clickable {
                 book.id?.let { onPressDetails.invoke(it) }
-                       },
+            },
         shape = RectangleShape,
         elevation = CardDefaults.cardElevation(defaultElevation = 5.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)

@@ -221,9 +221,6 @@ fun Userform(
         }
         Emailinput(emailState = email,
             enabled = !loading,
-            onAction = KeyboardActions{
-                passwordFocusRequest.requestFocus() //itmeans when we click done it will focus on next input field
-            },
             labelId = "Email")
 
         PasswordInput(modifier=Modifier.focusRequester(passwordFocusRequest),//focus will come here from above

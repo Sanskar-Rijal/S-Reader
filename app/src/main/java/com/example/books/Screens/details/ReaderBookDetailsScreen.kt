@@ -216,9 +216,9 @@ fun ShowBookDetails(bookinfo:Item,navController: NavController){
         StylishButton(label = "Save"){
             //save book to firebase
             val book = Sbook(title = bookData?.title?:"No title",
-                authors = bookData?.authors?.toString()?:"No authors",
+                authors = bookData?.authors?.joinToString()?:"No authors",
                 descrption = bookData?.description?:"No description",
-                category = bookData?.categories?.toString()?:"Unknown",
+                category = bookData?.categories?.joinToString()?:"Unknown",
                 notes = "",
                 photoUrl = bookData?.imageLinks?.thumbnail?:"https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg",
                 publishedDate = bookData?.publishedDate?:"Unknown",

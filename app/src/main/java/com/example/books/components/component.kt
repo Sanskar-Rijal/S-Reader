@@ -36,6 +36,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlin.math.log
+import kotlin.math.sin
 
 @Composable
 fun MainLogo(text:String,modifier: Modifier = Modifier,logScreen:Boolean=false) {
@@ -80,14 +81,17 @@ fun Input(modifier: Modifier=Modifier,
           keyboardType: KeyboardType = KeyboardType.Text,
           imeaction: ImeAction = ImeAction.Next,
           isSingleLine:Boolean=true,
-          onAction: KeyboardActions = KeyboardActions.Default
+          onAction: KeyboardActions = KeyboardActions.Default,
+          maxlines:Int=1
 ){
-    OutlinedTextField(value =valueState.value,
+    OutlinedTextField(
+        value =valueState.value,
         onValueChange = {valueState.value=it},
         label = {
             Text(text = labelId)
         },
         singleLine = isSingleLine,
+        maxLines = maxlines,
         textStyle = TextStyle(fontSize = 19.sp,
             color = MaterialTheme.colorScheme.onBackground),
         modifier = modifier.padding(bottom = 10.dp, start = 10.dp, end = 10.dp)
@@ -95,7 +99,8 @@ fun Input(modifier: Modifier=Modifier,
         enabled=enabled,
         shape = RoundedCornerShape(15.dp),
         keyboardOptions = KeyboardOptions(keyboardType = keyboardType,
-            imeAction = imeaction)
+            imeAction = imeaction),
+        keyboardActions = onAction,
     )
 }
 
