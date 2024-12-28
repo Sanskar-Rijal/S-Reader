@@ -126,7 +126,7 @@ fun ShowBookDetails(bookinfo:Item,navController: NavController){
             model = ImageRequest.Builder(LocalContext.current)
                 .data(
                     if(bookinfo.volumeInfo?.imageLinks?.smallThumbnail.isNullOrEmpty()){
-                        "https://books.google.com/books/content?id=EKV6zgEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api"
+                        "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg"
                     }
                             else
                     bookinfo.volumeInfo?.imageLinks?.smallThumbnail
@@ -180,7 +180,7 @@ fun ShowBookDetails(bookinfo:Item,navController: NavController){
 
     Spacer(modifier = Modifier.height(7.dp))
 
-    val CleanDescription = HtmlCompat.fromHtml(bookData?.description?:"Description xaina yo book ko, ma lekhdinxu description,'sanskar nam vako manxe sarai gyani hunxan rey dhanaybadh'\uD83D\uDE0E,",
+    val CleanDescription = HtmlCompat.fromHtml(bookData?.description?:"Description xaina hai yo book ko,'nahi nahi haam yaa kya karne aye hae?' ma lekhdinxu description\uD83D\uDE0E,'sanskar nam vako manxe pro,gyani,reliable hunxan rey dhanaybadh',patyauna alik garo huna sakxa tara yo mathi ko book lae yei vanxa hai,kasri vanxa? book padhe paxi tha hunxa commonsense \uD83D\uDE07",
         HtmlCompat.FROM_HTML_MODE_LEGACY).toString()
     //using LazyColumn for description
 
@@ -209,6 +209,10 @@ fun ShowBookDetails(bookinfo:Item,navController: NavController){
         .fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceEvenly) {
 
+        StylishButton(label = "Cancel"){
+            navController.popBackStack()
+        }
+
         StylishButton(label = "Save"){
             //save book to firebase
             val book = Sbook(title = bookData?.title?:"No title",
@@ -216,7 +220,7 @@ fun ShowBookDetails(bookinfo:Item,navController: NavController){
                 descrption = bookData?.description?:"No description",
                 category = bookData?.categories?.toString()?:"Unknown",
                 notes = "",
-                photoUrl = bookData?.imageLinks?.thumbnail?:"Unknown",
+                photoUrl = bookData?.imageLinks?.thumbnail?:"https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg",
                 publishedDate = bookData?.publishedDate?:"Unknown",
                 pagecount = bookData?.pageCount?.toString()?:"Unknown",
                 rating = 0.0,
@@ -225,9 +229,7 @@ fun ShowBookDetails(bookinfo:Item,navController: NavController){
                 )
             SavetoFirebase(book,navController)
         }
-        StylishButton(label = "Cancel"){
-            navController.popBackStack()
-        }
+
 
     }
 }

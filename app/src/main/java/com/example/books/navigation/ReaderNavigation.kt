@@ -19,6 +19,7 @@ import com.example.books.Screens.home.Home
 import com.example.books.Screens.home.HomeScreenViewmodel
 import com.example.books.Screens.login.LoginScreen
 import com.example.books.Screens.login.LoginViewModel
+import com.example.books.Screens.update.BookUpdateScreen
 import com.example.books.components.NotificationMessage
 
 @Composable
@@ -54,8 +55,8 @@ fun ReaderNavigation(){
 
         //we want bookId from SearchScreen
         //www.google.com/bookid="SpiderMan" we are passing the city variable like the url in web
-        val route=ReaderScreens.DetailScreen.name
-        composable("$route/{bookid}",
+        val route1=ReaderScreens.DetailScreen.name
+        composable("$route1/{bookid}",
             arguments = listOf(navArgument(name="bookid"){
                 type= NavType.StringType
             })
@@ -67,5 +68,18 @@ fun ReaderNavigation(){
             }
         }
 
+
+        //we are passing book id from homescreen to detail screen
+        val route2=ReaderScreens.UpdateScreen.name
+        composable("$route2/{bookid}",
+            arguments = listOf(navArgument(name = "bookid"){
+                type=NavType.StringType
+            })){backStackEntry->
+            backStackEntry.arguments?.getString("bookid").let { bookid->
+                if(bookid!=null){
+                    BookUpdateScreen(navController = navController,id=bookid)
+                }
+            }
+        }
     }
 }

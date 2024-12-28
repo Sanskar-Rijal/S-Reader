@@ -121,7 +121,7 @@ fun HomeContent(navController: NavController,viewmodel: HomeScreenViewmodel) {
         verticalArrangement = Arrangement.Top
     ) {
         if (listofbook.isNullOrEmpty()) {
-            LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
+            LinearProgressIndicator(modifier = Modifier.fillMaxWidth().padding(10.dp))
             Text(text = "Loading.......")
         } else {
 
@@ -162,6 +162,7 @@ fun HomeContent(navController: NavController,viewmodel: HomeScreenViewmodel) {
                 }
 
             }
+
             ListCard(book = listofbook[0])
 
             Spacer(modifier = Modifier.height(15.dp))
@@ -179,8 +180,9 @@ fun ReadingRightNowArea(books:List<Sbook>, navController: NavController){
     TitleSection(label ="Reading List")
     //making scrollable Row to show currently reading Books
     Spacer(modifier = Modifier.height(15.dp))
-    BookListArea(listofBooks =books, navController = navController){
+    BookListArea(listofBooks =books, navController = navController){bookid->
         //something to do when the card is clicked, i.e go to details screen
+        navController.navigate(ReaderScreens.UpdateScreen.name+"/$bookid")
 
     }
 }
@@ -197,7 +199,7 @@ fun BookListArea(listofBooks:List<Sbook>,navController: NavController,onCardPres
     ) {
         items(items = listofBooks){book->
             Spacer(modifier = Modifier.width(7.dp))
-        ListCard(book = book){//"it" will be a string passed in lamda i.e twilight
+        ListCard(book = book){//"it" will be a string passed in lamda i.e id of the book
             onCardPressed(it)
         }
         }

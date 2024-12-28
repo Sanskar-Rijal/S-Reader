@@ -88,7 +88,11 @@ fun ListCard(
                 horizontalArrangement = Arrangement.Center){
                // loading image from internet
                 AsyncImage(model = ImageRequest.Builder(LocalContext.current)
-                    .data("https://books.google.com/books/content?id=EKV6zgEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api")
+                    .data(if(book.photoUrl.isNullOrEmpty())
+                        "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg"
+                    else
+                        book.photoUrl
+                    )
                     .crossfade(true)
                     .build(),
                     placeholder= painterResource(R.drawable.dummy),
@@ -117,18 +121,18 @@ fun ListCard(
                 Text(text = it,
                     modifier = Modifier.padding(4.dp),
                     fontWeight = FontWeight.Bold,
-                    maxLines = 2,
-                    overflow = TextOverflow.Clip,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
                     color = MaterialTheme.colorScheme.onBackground)
             }// if we have more text that can't be displayed it will be clipped
 
-            book.authors?.let {
-                Text(text= it,
-                    modifier = Modifier.padding(4.dp),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onBackground
-                )
-            }
+//            book.authors?.let {
+//                Text(text= it,
+//                    modifier = Modifier.padding(4.dp),
+//                    style = MaterialTheme.typography.bodySmall,
+//                    color = MaterialTheme.colorScheme.onBackground
+//                )
+//            }
         }
            Row(modifier = Modifier.fillMaxSize(),
                horizontalArrangement = Arrangement.End,
@@ -228,7 +232,7 @@ fun SearchListCard(
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(
                         if (book.volumeInfo?.imageLinks?.smallThumbnail.isNullOrEmpty())
-                            "https://books.google.com/books/content?id=EKV6zgEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api"
+                            "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg"
                         else
                             book.volumeInfo?.imageLinks?.smallThumbnail
                     )
