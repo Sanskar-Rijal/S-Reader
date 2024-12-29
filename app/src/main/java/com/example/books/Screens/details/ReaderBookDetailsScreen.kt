@@ -22,7 +22,9 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.produceState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusModifier
@@ -48,6 +50,7 @@ import com.example.books.model.Item
 import com.example.books.model.Sbook
 import com.example.books.navigation.ReaderScreens
 import com.example.books.widgets.AppBarbysans
+import com.example.books.widgets.LoadingDialog
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -209,6 +212,11 @@ fun ShowBookDetails(bookinfo:Item,navController: NavController){
         .fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceEvenly) {
 
+        //making state for progress indicator
+        val indicator = remember {
+            mutableStateOf(false)
+        }
+
         StylishButton(label = "Cancel"){
             navController.popBackStack()
         }
@@ -227,19 +235,25 @@ fun ShowBookDetails(bookinfo:Item,navController: NavController){
                 googleBookId = id,
                 userId = FirebaseAuth.getInstance().currentUser?.uid.toString()
                 )
+            indicator.value=true
             SavetoFirebase(book,navController)
         }
-
-
+        if(indicator.value == true) {
+            LoadingDialog()
+        }
     }
 }
 
 
 fun SavetoFirebase(book:Sbook,navController: NavController){
+
+
+
     val db = FirebaseFirestore.getInstance()
     val dbcollection =db.collection("books")
 
     if (book.toString().isNotEmpty()){
+
         dbcollection.add(book).addOnSuccessListener {documentRef-> //contains the id of the book
 
             val documentId=documentRef.id //moving the id to variable documentid

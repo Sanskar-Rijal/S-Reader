@@ -34,6 +34,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -167,12 +170,11 @@ fun HomeContent(navController: NavController,viewmodel: HomeScreenViewmodel) {
 
             }
 
-            ListCard(book = listofbook[0])
-
-            Spacer(modifier = Modifier.height(15.dp))
-
+           ReadingRightNowArea(books = listofbook, navController = navController)
+//            Spacer(modifier = Modifier.height(15.dp))
+            TitleSection(label ="Reading List")
             //creating Reading List
-            ReadingRightNowArea(books = listofbook, navController = navController)
+            BookListArea(listofBooks = listofbook, navController = navController)
 
         }
     }
@@ -181,10 +183,15 @@ fun HomeContent(navController: NavController,viewmodel: HomeScreenViewmodel) {
 
 @Composable
 fun ReadingRightNowArea(books:List<Sbook>, navController: NavController){
-    TitleSection(label ="Reading List")
+
+    //filters book by reading now
+    val readingList= books.filter {sbook ->
+        sbook.StaredReading !=null && sbook.finishedReading == null
+    }
+
     //making scrollable Row to show currently reading Books
-    Spacer(modifier = Modifier.height(15.dp))
-    BookListArea(listofBooks =books, navController = navController){bookid->
+    //Spacer(modifier = Modifier.height(15.dp))
+    HorizontalScrollable(addedBooks =readingList){bookid->
         //something to do when the card is clicked, i.e go to details screen
         navController.navigate(ReaderScreens.UpdateScreen.name+"/$bookid")
 
@@ -192,26 +199,50 @@ fun ReadingRightNowArea(books:List<Sbook>, navController: NavController){
 }
 
 @Composable
-fun BookListArea(listofBooks:List<Sbook>,navController: NavController,onCardPressed:(String)->Unit){
+fun BookListArea(listofBooks:List<Sbook>,navController: NavController){
 
     //val scrollableState = rememberScrollState()
 
-    LazyRow(modifier = Modifier
-        .fillMaxSize()
-        // .horizontalScroll(scrollableState)
-        .heightIn(280.dp)
-    ) {
-        items(items = listofBooks){book->
-            Spacer(modifier = Modifier.width(7.dp))
-        ListCard(book = book){//"it" will be a string passed in lamda i.e id of the book
-            onCardPressed(it)
-        }
-        }
+    val addedBooks=listofBooks.filter {sbook ->
+        sbook.StaredReading ==null && sbook.finishedReading == null  //filtering the books
     }
 
+    HorizontalScrollable(addedBooks){bookid->
+        navController.navigate(ReaderScreens.UpdateScreen.name+"/$bookid")
+    }
 
 }
 
+@Composable
+fun HorizontalScrollable(addedBooks:List<Sbook>,onCardPressed:(String)->Unit) {
 
+
+    if (addedBooks.isNullOrEmpty()) {
+        Column(modifier = Modifier.padding(23.dp)
+            .height(280.dp),
+            verticalArrangement = Arrangement.Center
+        ) {
+            Text(
+                text = "No books found. Add a Book",
+                style = MaterialTheme.typography.titleLarge,
+                color = Color.Red.copy(0.4f)
+            )
+        }
+    } else {
+        LazyRow(
+            modifier = Modifier
+                .fillMaxWidth()
+                // .horizontalScroll(scrollableState)
+                .heightIn(280.dp)
+        ) {
+            items(items = addedBooks) { book ->
+                Spacer(modifier = Modifier.width(7.dp))
+                ListCard(book = book) {//"it" will be a string passed in lamda i.e id of the book
+                    onCardPressed(it)
+                }
+            }
+        }
+    }
+}
 
 

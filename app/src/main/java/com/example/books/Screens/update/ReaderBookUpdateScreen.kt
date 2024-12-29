@@ -381,7 +381,7 @@ fun ShowSimpleForm(bookinfo:Sbook,navController: NavController){
                     .update(bookToUpdate)
                     .addOnCompleteListener{task->
                         Toast.makeText(context,"Book updated Successfully \uD83D\uDE1C",Toast.LENGTH_SHORT).show()
-                        navController.popBackStack()
+                        navController.navigate(ReaderScreens.ReaderHomeScreen.name)
 
                     }.addOnFailureListener{
                         //kei na kei ta garna parxa hehehhee
