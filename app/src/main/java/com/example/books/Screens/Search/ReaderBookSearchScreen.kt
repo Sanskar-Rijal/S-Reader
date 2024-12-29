@@ -46,8 +46,8 @@ fun SearchScreen(navController: NavController,
         AppBarbysans(title = "Search Books", showProfile = false,
             navController = NavController(LocalContext.current),
             icon = Icons.AutoMirrored.Filled.ArrowBack){
-          //  navController.popBackStack() this would have also worked
-            navController.navigate(ReaderScreens.ReaderHomeScreen.name)
+           navController.popBackStack() //this would have also worked
+            //navController.navigate(ReaderScreens.ReaderHomeScreen.name)
         }
     }){
         Surface(modifier = Modifier

@@ -68,7 +68,7 @@ fun BookDetailScreen(navController: NavController=NavController(LocalContext.cur
                 showProfile = false,
                 navController = navController
             ) {
-                navController.navigate(ReaderScreens.SearchScreen.name)
+                navController.popBackStack()
             }
         }
     ) { contentpadding ->
@@ -238,6 +238,7 @@ fun ShowBookDetails(bookinfo:Item,navController: NavController){
 fun SavetoFirebase(book:Sbook,navController: NavController){
     val db = FirebaseFirestore.getInstance()
     val dbcollection =db.collection("books")
+
     if (book.toString().isNotEmpty()){
         dbcollection.add(book).addOnSuccessListener {documentRef-> //contains the id of the book
 
@@ -247,7 +248,7 @@ fun SavetoFirebase(book:Sbook,navController: NavController){
                 .update(hashMapOf("id" to documentId) as Map<String, Any>)
                 .addOnCompleteListener{task->
                     if(task.isSuccessful){
-                        navController.popBackStack()
+                        navController.navigate(ReaderScreens.ReaderHomeScreen.name)
                     }
                 }
         }.addOnFailureListener{

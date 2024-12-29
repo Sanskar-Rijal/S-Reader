@@ -156,8 +156,7 @@ fun LoginScreen(navController: NavController,viewModel: LoginViewModel= viewMode
                                 .padding(start = 5.dp)
                                 .clickable {
                                     //go to create account
-                                    showLoginForm.value =
-                                        !showLoginForm.value //making it true and false
+                                    showLoginForm.value = !showLoginForm.value //making it true and false
                                 },
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.onTertiaryContainer

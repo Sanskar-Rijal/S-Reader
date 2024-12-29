@@ -52,6 +52,7 @@ import com.example.books.navigation.ReaderScreens
 import kotlin.math.log
 
 
+
 @Composable
 fun ListCard(
     book:Sbook,
@@ -182,7 +183,7 @@ fun roundedButton(
         color = MaterialTheme.colorScheme.tertiaryContainer){
         Column(modifier = Modifier
             .width(90.dp)
-            .heightIn(60.dp)
+            .heightIn(40.dp)
             .clickable {
                 onPress.invoke()
             },

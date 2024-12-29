@@ -1,7 +1,8 @@
 package com.example.books.Screens.update
 
+import android.content.Context
 import android.util.Log
-import androidx.compose.foundation.background
+import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -17,13 +18,17 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Warning
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -53,9 +58,16 @@ import coil3.request.crossfade
 import com.example.books.R
 import com.example.books.Screens.home.HomeScreenViewmodel
 import com.example.books.components.Input
+import com.example.books.components.StylishButton
 import com.example.books.model.Book
 import com.example.books.model.Sbook
+import com.example.books.navigation.ReaderScreens
+import com.example.books.utils.formatDate
 import com.example.books.widgets.AppBarbysans
+import com.example.books.widgets.CustomAlertDialouge
+import com.example.books.widgets.Star
+import com.google.firebase.Timestamp
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlin.math.log
 
 @Composable
@@ -91,8 +103,10 @@ fun BookUpdateScreen(navController: NavController, id:String,viewmodel: HomeScre
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                     if(bookinfo.isNullOrEmpty()){
-                        LinearProgressIndicator()
-                        Text(text = "Loading.......")
+                        LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
+
+                            Text(text = "Loading.......")
+
                     }else{
                     Surface(
                         modifier = Modifier
@@ -210,6 +224,9 @@ fun CardListBook(book:Sbook?){
 //making text view to enter thoughts
 @Composable
 fun ShowSimpleForm(bookinfo:Sbook,navController: NavController){
+    //to show toast
+
+    val context:Context= LocalContext.current
 
     //thought-> is a string we are going to need a state of the note so let's go
 
@@ -217,13 +234,163 @@ fun ShowSimpleForm(bookinfo:Sbook,navController: NavController){
         mutableStateOf("")
     }
 
+    val isStartedReading = remember {
+        mutableStateOf(false)
+    }
+
+    val isFinishedReading = remember {
+        mutableStateOf(false)
+    }
+
+    val ratingVal = remember {
+        mutableStateOf(0)
+    }
+
+
     SimpleForm(defaultvalue = if(bookinfo.notes.toString().isNotEmpty())
         bookinfo.notes.toString()
         else
         "You haven't shared your thoughts yet \uD83D\uDE2D"){thought-> //it is a string returned from text Box
         notesText.value=thought
+    }
+
+    Row(modifier = Modifier.padding(4.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Start) {
+
+        TextButton(
+            onClick = {
+                //to do When the Text are clicked i have to change the text from "start Reading" to "started Reading"
+                isStartedReading.value=true
+            },
+            enabled = bookinfo.StaredReading == null
+        ) {
+            if (bookinfo.StaredReading == null) {
+                if (!isStartedReading.value) {
+                    Text(
+                        text = "Start Reading",
+                        color = MaterialTheme.colorScheme.onTertiaryContainer,
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+                } else {
+                    Text(
+                        text = "Started Reading",
+                        color = MaterialTheme.colorScheme.onPrimaryContainer,
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+                }
+
+            }else{
+                Text(text = "Started on: ${formatDate(bookinfo.StaredReading!!)}",
+                    color = MaterialTheme.colorScheme.onTertiaryContainer,
+                    style = MaterialTheme.typography.bodyLarge)
+            }
+}
+            Spacer(modifier = Modifier.width(4.dp))
+
+            TextButton(onClick = {
+                isFinishedReading.value=true
+            },
+                enabled = bookinfo.finishedReading==null) {
+                if(bookinfo.finishedReading==null){
+                    if(!isFinishedReading.value){
+                        Text(text = "Mark as Read",
+                            color = MaterialTheme.colorScheme.onTertiaryContainer,
+                            style = MaterialTheme.typography.bodyLarge)
+                    }else{
+                        Text(text = "Finished Reading!!",
+                            color = MaterialTheme.colorScheme.onPrimaryContainer,
+                            style = MaterialTheme.typography.bodyLarge)
+                    }
+                }else{
+                    Text(text = "Finished on: ${
+                        formatDate(bookinfo.finishedReading!!)}",
+                        color = MaterialTheme.colorScheme.onTertiaryContainer)
+                }
+            }
+        //outside of the text
 
     }
+    //outside of row
+
+    Text(text = "Rating",
+        modifier = Modifier.padding(bottom = 3.dp))
+    bookinfo.rating?.toInt().let {rating->
+
+        Star(rating = rating!!){ratedval->
+            ratingVal.value=ratedval
+        }
+    }
+
+    Spacer(modifier = Modifier.height(15.dp))
+
+    Row(modifier = Modifier
+        .padding(10.dp)
+        .fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceEvenly) {
+
+        //making sure during update there is a text in the text field
+        val changedNotes= bookinfo.notes != notesText.value
+        val changedRating = bookinfo.rating?.toInt() != ratingVal.value
+        val isFinishedTimeStamp = if(isFinishedReading.value) Timestamp.now() else bookinfo.finishedReading
+        val isStartedTimeStamp = if(isStartedReading.value) Timestamp.now() else bookinfo.StaredReading
+
+        val bookUpdate = changedNotes || changedRating || isStartedReading.value  || isFinishedReading.value //if somethiing one of it is true we have to update the value
+
+        val bookToUpdate = hashMapOf(
+            "finished_reading_at" to isFinishedTimeStamp,
+            "stared_Reading" to isStartedTimeStamp,
+            "rating" to ratingVal.value,
+            "notes" to notesText.value
+        ).toMap()
+
+        //for alert dialouge
+        var openAlertDialouge by remember {
+            mutableStateOf(false)
+        }
+
+        StylishButton(label = "Delete") {
+            openAlertDialouge=true
+        }
+        if(openAlertDialouge){
+            CustomAlertDialouge(
+                icon = Icons.Default.Warning,
+                dialogTitle = "Delete Book",
+                dialogText = "Are you sure? Action can't be undone",
+                onConfirmation = {
+                    FirebaseFirestore.getInstance().collection("books")//now i have to get into the document
+                        .document(bookinfo.id!!)
+                        .delete()
+                        .addOnCompleteListener{
+                            if(it.isSuccessful){
+                                openAlertDialouge=false
+                                navController.navigate(ReaderScreens.ReaderHomeScreen.name)
+                            }
+                        }
+                },
+                onDismissRequest ={
+                    openAlertDialouge=false
+                }
+            )
+        }
+
+        StylishButton(label = "Update") {
+            if(bookUpdate){
+                FirebaseFirestore.getInstance().collection("books")//once we get to the collection we need to get to the actual book to update it
+                    .document(bookinfo.id!!)
+                    .update(bookToUpdate)
+                    .addOnCompleteListener{task->
+                        Toast.makeText(context,"Book updated Successfully \uD83D\uDE1C",Toast.LENGTH_SHORT).show()
+                        navController.popBackStack()
+
+                    }.addOnFailureListener{
+                        //kei na kei ta garna parxa hehehhee
+                    }
+            }
+        }
+    }
+
+
 
 }
 
@@ -251,7 +418,7 @@ fun SimpleForm(
         valueState = textFieldValue,
         labelId = "Enter your thoughts",
         enabled = true,
-        modifier=Modifier
+        modifier= Modifier
             .fillMaxWidth()
             .padding(3.dp),
         keyboardType = KeyboardType.Unspecified,
@@ -263,10 +430,11 @@ fun SimpleForm(
             onSearch(textFieldValue.value.trim()) //this will pass as lamda expression
             // to the calling function i.e the thing written inside
 
+            Log.d("vampitre", "SimpleForm: ${textFieldValue.value} ")
+
             keyboardController?.hide()
         },
         isSingleLine = false
     )
-
 
 }

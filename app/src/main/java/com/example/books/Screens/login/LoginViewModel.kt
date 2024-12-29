@@ -57,7 +57,9 @@ class LoginViewModel:ViewModel() {
         Log.d("april", "entered create userwith emaill ")
         //we need to check whether user is unique or not so we check email address
      if(_loading.value==false){
+
          _loading.value= true
+
                 auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task -> //task with auth result
                     Log.d("july", "i'm inside this")
                     if (task.isSuccessful) {

@@ -21,6 +21,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ImageSearch
+import androidx.compose.material.icons.rounded.Book
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -77,7 +79,7 @@ fun FloatingContent(onClick:(String)->Unit ){
         shape = RoundedCornerShape(45.dp),
         containerColor = MaterialTheme.colorScheme.tertiaryContainer,
     ) {
-        Icon(Icons.Default.Add, contentDescription = "Add Icon", tint = MaterialTheme.colorScheme.onTertiaryContainer)
+        Icon(Icons.Default.ImageSearch, contentDescription = "Add Icon", tint = MaterialTheme.colorScheme.onTertiaryContainer)
     }
 }
 
@@ -121,8 +123,10 @@ fun HomeContent(navController: NavController,viewmodel: HomeScreenViewmodel) {
         verticalArrangement = Arrangement.Top
     ) {
         if (listofbook.isNullOrEmpty()) {
+
             LinearProgressIndicator(modifier = Modifier.fillMaxWidth().padding(10.dp))
-            Text(text = "Loading.......")
+                Text(text = "Loading.......")
+
         } else {
 
             Row(
