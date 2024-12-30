@@ -20,6 +20,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.ThumbUp
 import androidx.compose.material.icons.sharp.Person
 import androidx.compose.material.icons.sharp.Villa
 import androidx.compose.material3.Card
@@ -53,6 +54,7 @@ import com.example.books.R
 import com.example.books.Screens.home.HomeScreenViewmodel
 import com.example.books.model.Sbook
 import com.example.books.navigation.ReaderScreens
+import com.example.books.utils.formatDate
 import com.example.books.widgets.AppBarbysans
 import com.example.books.widgets.SearchListCard
 import com.google.firebase.auth.FirebaseAuth
@@ -215,14 +217,24 @@ fun BookStats(book: Sbook,navController: NavController,
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.Start
             ) {
-                Text(
-                    text = book.title ?: "No Title",
-                    modifier = Modifier.padding(2.dp),
-                    fontWeight = FontWeight.Bold,
-                    maxLines = 2,
-                    overflow = TextOverflow.Clip,
-                    color = MaterialTheme.colorScheme.onBackground
-                )
+//                Row(modifier = Modifier.fillMaxWidth(),
+//                    horizontalArrangement = Arrangement.SpaceBetween){
+                    Text(
+                        text = book.title ?: "No Title",
+                        modifier = Modifier.padding(2.dp),
+                        fontWeight = FontWeight.Bold,
+                        maxLines = 2,
+                        overflow = TextOverflow.Clip,
+                        color = MaterialTheme.colorScheme.onBackground
+                    )
+
+//                    if(book.rating!! >=4){
+//                        Icon(imageVector = Icons.Default.ThumbUp, contentDescription = "icon")
+//                    }else{
+//                        Box{}
+//                    }
+//
+//                }
 
                 Text(
                     text = "Author: ${book.authors?: "Unknown"}",
@@ -233,15 +245,16 @@ fun BookStats(book: Sbook,navController: NavController,
                 )
 
                 Text(
-                    text = "Date: ${book.publishedDate?: "Unknown Date"}",
+                    text = "Started at: ${formatDate(book.StaredReading!!)?: "Unknown Date"}",
                     modifier = Modifier.padding(2.dp),
+                    softWrap = true,
                     style = MaterialTheme.typography.bodySmall,
                     fontStyle = FontStyle.Italic,
                     color = MaterialTheme.colorScheme.onBackground
                 )
 
                 Text(
-                    text = "${book.category?: "No Categories"}",
+                    text = "Finished at ${formatDate(book.finishedReading!!)?: "Unknown Date"}",
                     modifier = Modifier.padding(2.dp),
                     style = MaterialTheme.typography.bodySmall,
                     fontStyle = FontStyle.Italic,

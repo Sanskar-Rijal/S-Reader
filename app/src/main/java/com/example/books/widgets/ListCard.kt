@@ -112,12 +112,12 @@ fun ListCard(
                 Column(modifier = Modifier.padding(top = 10.dp),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally) {
+//
+//                    Icon(imageVector = Icons.Rounded.FavoriteBorder,
+//                        contentDescription = "icon",
+//                        modifier = Modifier.padding(bottom = 2.dp))
 
-                    Icon(imageVector = Icons.Rounded.FavoriteBorder,
-                        contentDescription = "icon",
-                        modifier = Modifier.padding(bottom = 2.dp))
-
-                    BookRatingScore(3.5)
+                    BookRatingScore(book.rating!!)
                 }
 
             }
