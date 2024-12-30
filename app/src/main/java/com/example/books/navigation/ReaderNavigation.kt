@@ -41,11 +41,12 @@ fun ReaderNavigation(){
         }
 
         composable(ReaderScreens.ReaderHomeScreen.name){
-            var homeViewmodel = hiltViewModel<HomeScreenViewmodel>()
+            val homeViewmodel = hiltViewModel<HomeScreenViewmodel>()
             Home(navController,homeViewmodel)
         }
         composable(ReaderScreens.StatsScreen.name){
-            StatusScreen(navController)
+            val homeViewModel = hiltViewModel<HomeScreenViewmodel>()
+            StatusScreen(navController,homeViewModel)
         }
 
         composable(ReaderScreens.SearchScreen.name){
