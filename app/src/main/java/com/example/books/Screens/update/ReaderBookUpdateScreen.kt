@@ -275,7 +275,7 @@ fun ShowSimpleForm(bookinfo:Sbook,navController: NavController){
                 } else {
                     Text(
                         text = "Started Reading",
-                        color = MaterialTheme.colorScheme.onPrimaryContainer,
+                        color = Color.Red.copy(0.4f),
                         style = MaterialTheme.typography.bodyLarge
                     )
                 }
@@ -299,7 +299,7 @@ fun ShowSimpleForm(bookinfo:Sbook,navController: NavController){
                             style = MaterialTheme.typography.bodyLarge)
                     }else{
                         Text(text = "Finished Reading!!",
-                            color = MaterialTheme.colorScheme.onPrimaryContainer,
+                            color = Color.Red.copy(0.4f),
                             style = MaterialTheme.typography.bodyLarge)
                     }
                 }else{
@@ -386,6 +386,8 @@ fun ShowSimpleForm(bookinfo:Sbook,navController: NavController){
                     }.addOnFailureListener{
                         //kei na kei ta garna parxa hehehhee
                     }
+            }else{
+                Toast.makeText(context,"Noting is changed what shall i update? \uD83E\uDD26\u200D♀\uFE0F",Toast.LENGTH_SHORT).show()
             }
         }
     }

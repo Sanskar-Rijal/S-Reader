@@ -125,7 +125,7 @@ fun HomeContent(navController: NavController,viewmodel: HomeScreenViewmodel) {
             .padding(4.dp),
         verticalArrangement = Arrangement.Top
     ) {
-        if (listofbook.isNullOrEmpty()) {
+        if (viewmodel.isloading) {
 
             LinearProgressIndicator(modifier = Modifier.fillMaxWidth().padding(10.dp))
                 Text(text = "Loading.......")

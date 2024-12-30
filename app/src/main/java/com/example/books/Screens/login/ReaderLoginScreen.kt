@@ -79,8 +79,8 @@ fun LoginScreen(navController: NavController,viewModel: LoginViewModel= viewMode
     Box(modifier = Modifier.fillMaxSize()) {
 
         Image(
-            painter = if(isSystemInDarkTheme()) painterResource(R.drawable.darkmode)
-            else
+            painter = //if(isSystemInDarkTheme()) painterResource(R.drawable.darkmode)
+          //  else
                 painterResource(R.drawable.lightmode),
             modifier = Modifier.fillMaxWidth()
                 .fillMaxHeight(0.46f),
