@@ -77,7 +77,7 @@ fun StatusScreen(navController: NavController= NavController(LocalContext.curren
     val finishedreadingBookList :List<Sbook> =
         if(!viewmodel.list.isNullOrEmpty()){
             books.filter {sbook ->
-                sbook.userId == currentuser?.uid && sbook.finishedReading !=null
+                sbook.userId == currentuser?.uid && sbook.finishedReading != null
             }
         }else{
             emptyList()
@@ -110,7 +110,7 @@ fun StatusScreen(navController: NavController= NavController(LocalContext.curren
 //                        Icon(imageVector = Icons.Sharp.Villa,
 //                            contentDescription = "Icon")
 
-                        Text(text = "Hello ${currentuser?.email?.split("@")?.get(0)}",
+                        Text(text = "Hello ${currentuser?.email?.split("@")?.get(0)?:"no Name"}",
                             modifier = Modifier.padding(10.dp),
                             style = MaterialTheme.typography.titleLarge,
                             color = MaterialTheme.colorScheme.onPrimaryContainer,
@@ -132,8 +132,10 @@ fun StatusScreen(navController: NavController= NavController(LocalContext.curren
                             Text(text = "Your Stats", style = MaterialTheme.typography.titleLarge)
                             HorizontalDivider(modifier = Modifier.padding(top = 3.dp, bottom = 3.dp),
                                 color = MaterialTheme.colorScheme.onBackground)
-                            Text(text = "You're reading: ${currentlyreadingbook.size} books",
-                                style = MaterialTheme.typography.labelLarge)
+
+                                Text(text = "You're reading: ${currentlyreadingbook.size} books",
+                                    style = MaterialTheme.typography.labelLarge)
+
                             Text(text = "You've read: ${finishedreadingBookList.size} books",
                                 style = MaterialTheme.typography.labelLarge)
 
@@ -245,7 +247,7 @@ fun BookStats(book: Sbook,navController: NavController,
                 )
 
                 Text(
-                    text = "Started at: ${formatDate(book.StaredReading!!)?: "Unknown Date"}",
+                    text = "Started at: ${book.StaredReading?.let { formatDate(it) } ?: "Unknown"}",
                     modifier = Modifier.padding(2.dp),
                     softWrap = true,
                     style = MaterialTheme.typography.bodySmall,
@@ -254,12 +256,13 @@ fun BookStats(book: Sbook,navController: NavController,
                 )
 
                 Text(
-                    text = "Finished at ${formatDate(book.finishedReading!!)?: "Unknown Date"}",
+                    text = "Finished at: ${book.finishedReading?.let { formatDate(it) } ?: "Unknown"}",
                     modifier = Modifier.padding(2.dp),
                     style = MaterialTheme.typography.bodySmall,
                     fontStyle = FontStyle.Italic,
                     color = MaterialTheme.colorScheme.onBackground
                 )
+
             }
         }
     }

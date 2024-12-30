@@ -131,13 +131,15 @@ fun ListCard(
                     color = MaterialTheme.colorScheme.onBackground)
             }// if we have more text that can't be displayed it will be clipped
 
-//            book.authors?.let {
-//                Text(text= it,
-//                    modifier = Modifier.padding(4.dp),
-//                    style = MaterialTheme.typography.bodySmall,
-//                    color = MaterialTheme.colorScheme.onBackground
-//                )
-//            }
+            book.authors?.let {
+                Text(text= "Author: $it",
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.padding(4.dp),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onBackground
+                )
+            }
         }
 
         //creating a State
