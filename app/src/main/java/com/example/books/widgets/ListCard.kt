@@ -162,7 +162,7 @@ fun ListCard(
 
 //creating composable for book rating
 @Composable
-fun BookRatingScore(rating:Double=4.5){
+fun BookRatingScore(rating:Int=4){
     Surface(modifier = Modifier
         .height(70.dp)
         .padding(4.dp),
@@ -175,8 +175,9 @@ fun BookRatingScore(rating:Double=4.5){
                 contentDescription = "Rating",
                 modifier = Modifier.padding(2.dp))
 
-            Text(text = rating.toString(),
+            Text(text = rating.toString()+".0",
                 style = MaterialTheme.typography.labelMedium,
+                fontWeight = FontWeight.SemiBold,
                 modifier = Modifier.padding(start = 4.dp))
 
         }

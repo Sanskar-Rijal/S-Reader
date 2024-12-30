@@ -231,7 +231,7 @@ fun ShowBookDetails(bookinfo:Item,navController: NavController){
                 photoUrl = bookData?.imageLinks?.thumbnail?:"https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg",
                 publishedDate = bookData?.publishedDate?:"Unknown",
                 pagecount = bookData?.pageCount?.toString()?:"Unknown",
-                rating = 0.0,
+                rating = 0,
                 googleBookId = id,
                 userId = FirebaseAuth.getInstance().currentUser?.uid.toString()
                 )

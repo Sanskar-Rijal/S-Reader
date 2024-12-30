@@ -231,7 +231,7 @@ fun ShowSimpleForm(bookinfo:Sbook,navController: NavController){
     //thought-> is a string we are going to need a state of the note so let's go
 
     val notesText = remember {
-        mutableStateOf("")
+        mutableStateOf(bookinfo.notes)
     }
 
     val isStartedReading = remember {
@@ -243,7 +243,7 @@ fun ShowSimpleForm(bookinfo:Sbook,navController: NavController){
     }
 
     val ratingVal = remember {
-        mutableStateOf(0)
+        mutableStateOf(bookinfo.rating)
     }
 
 
@@ -305,7 +305,8 @@ fun ShowSimpleForm(bookinfo:Sbook,navController: NavController){
                 }else{
                     Text(text = "Finished on: ${
                         formatDate(bookinfo.finishedReading!!)}",
-                        color = MaterialTheme.colorScheme.onTertiaryContainer)
+                        color = MaterialTheme.colorScheme.onTertiaryContainer,
+                        style = MaterialTheme.typography.bodyLarge)
                 }
             }
         //outside of the text
@@ -334,6 +335,7 @@ fun ShowSimpleForm(bookinfo:Sbook,navController: NavController){
         val changedRating = bookinfo.rating?.toInt() != ratingVal.value
         val isFinishedTimeStamp = if(isFinishedReading.value) Timestamp.now() else bookinfo.finishedReading
         val isStartedTimeStamp = if(isStartedReading.value) Timestamp.now() else bookinfo.StaredReading
+
 
         val bookUpdate = changedNotes || changedRating || isStartedReading.value  || isFinishedReading.value //if somethiing one of it is true we have to update the value
 

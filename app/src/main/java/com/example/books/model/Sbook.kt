@@ -20,7 +20,7 @@ data class Sbook(
     @set:PropertyName("published_date")
     var publishedDate:String?=null, //in data base it should save as publish_date
 
-    var rating:Double?=null,
+    var rating:Int?=null,
     var descrption:String?=null,
 
     @get:PropertyName("stared_Reading")
