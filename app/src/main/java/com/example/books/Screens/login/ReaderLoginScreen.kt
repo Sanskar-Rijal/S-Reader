@@ -35,6 +35,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
@@ -67,10 +68,13 @@ import com.example.books.components.MainLogo
 import com.example.books.components.NotificationMessage
 import com.example.books.components.SubmitButton
 import com.example.books.navigation.ReaderScreens
+import com.example.books.widgets.LoadingDialog
 
 
 @Composable
 fun LoginScreen(navController: NavController,viewModel: LoginViewModel= viewModel()) {
+
+    val uistate=viewModel.state.collectAsState()
 
     val showLoginForm = rememberSaveable {
         mutableStateOf(true)
@@ -164,6 +168,11 @@ fun LoginScreen(navController: NavController,viewModel: LoginViewModel= viewMode
                     }
                 }
             }
+            if(uistate.value== LoadingState.LOADING){
+                //show progress bar
+                LoadingDialog()
+            }
+
         }
     }
 }
