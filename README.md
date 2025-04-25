@@ -55,6 +55,34 @@ This app was inspired by the GoodReads platform, aiming to provide a similar exp
 - Implement advanced search filters.
 - Integrate APIs for book recommendations.
 - Add support for dark mode.
-
-
+---
+## ScreenShots
+  <a href="https://imgur.com/Tt0n3e6">
+    <img src="https://i.imgur.com/Tt0n3e6.gif" title="source: imgur.com" height="400" width="200" />
+  </a>
+    <a href="https://imgur.com/HQO6bnW">
+    <img src="https://i.imgur.com/HQO6bnW.gif" title="source: imgur.com" height="400" width="200" />
+  </a>
+   <a href="https://imgur.com/9HHoIoP">
+    <img src="https://i.imgur.com/9HHoIoP.gif" title="source: imgur.com" height="400" width="200" />
+  </a>
+   <a href="https://imgur.com/8hFUTvh">
+    <img src="https://i.imgur.com/8hFUTvh.gif" title="source: imgur.com" height="400" width="200" />
+  </a>
+  <a href="https://imgur.com/Ni0UKEj">
+    <img src="https://i.imgur.com/Ni0UKEj.gif" title="source: imgur.com" height="400" width="200" />
+  </a>
+  <a href="https://imgur.com/TZfVmoZ">
+    <img src="https://i.imgur.com/TZfVmoZ.gif" title="source: imgur.com" height="400" width="200" />
+  </a>
+    <a href="https://imgur.com/OGWt4AX">
+    <img src="https://i.imgur.com/OGWt4AX.gif" title="source: imgur.com" height="400" width="200" />
+  </a>
+   </a>
+    <a href="https://imgur.com/uUhYBew">
+    <img src="https://i.imgur.com/uUhYBew.gif" title="source: imgur.com" height="400" width="200" />
+  </a>
+  
+  
+  
 
